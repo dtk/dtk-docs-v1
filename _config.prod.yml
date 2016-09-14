@@ -30,7 +30,7 @@ kramdown:
   input: GFM
 
 siteBaseDir: "/docs"
-assetsBaseDir: "/assets"
+assetsBaseDir: "/docs/assets"
 
 defaults:
   -
