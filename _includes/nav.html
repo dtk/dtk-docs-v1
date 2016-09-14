@@ -1,0 +1,74 @@
+<style>
+@media (max-width: 998px) {
+    .navbar-header {
+        float: none;
+    }
+    .navbar-toggle {
+        display: block;
+    }
+    .navbar-collapse {
+        border-top: 1px solid transparent;
+        box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
+    }
+    .navbar-collapse.collapse {
+        display: none!important;
+    }
+    .navbar-nav {
+        float: none!important;
+        margin: 7.5px -15px;
+    }
+    .navbar-nav>li {
+        float: none;
+    }
+    .navbar-nav>li>a {
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+    .navbar-text {
+        float: none;
+        margin: 15px 0;
+    }
+    /* since 3.1.0 */
+    .navbar-collapse.collapse.in { 
+        display: block!important;
+    }
+    .collapsing {
+        overflow: hidden!important;
+    }
+    .navbutton {
+        background-color: transparent;
+        background-image: none;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        float: right;
+        margin-bottom: 8px;
+        margin-right: 15px;
+        margin-top: 8px;
+        padding: 9px 10px;
+        position: relative;
+    }
+}
+</style>
+    <!-- Navigation -->
+    <nav class="navbar navbar-default" style="height: 61px; background-color: #FFFFFF;">
+    <div class="container-fluid" style="height: inherit;">
+        <div class="navbar-header" style="height: inherit;">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#sidebar" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#" style="margin-left: 10px; padding: 10px;">
+                <img alt="dtk.io" src="{{site.assetsBaseDir}}/img/dtk-logo-color-header.png">
+            </a>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav navbar-right" style="margin-right: 50px; height: 60px;">
+            <li><a href="/getting-started">Getting Started</a></li>
+            <li><a href="/">Documentation</a></li>
+        </ul>
+        </div>
+    </div>
+    </nav>

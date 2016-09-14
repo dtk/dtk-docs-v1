@@ -1,0 +1,66 @@
+<style>
+    /* all links */
+#sidebar .nav>li>a {
+    color: #23abdf;
+    padding: 7px 20px 5px 20px;
+    font-size: 15px;
+    font-weight: 550;
+}
+
+/* nested links */
+#sidebar .nav .nav>li>a {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 30px;
+    font-size: 13px;
+    color: #696969;
+}
+#sidebar .nav .nav>li>a:hover {
+    background-color: #e9e9e9;
+}
+
+</style>
+<ul class="nav nav-stacked fixed" id="sidebar-list-wrapper">
+    <li>
+        <a href="#GettingStarted">Getting Started</a>
+        <ul class="nav nav-stacked" >
+            {% assign gs_pages = site.getting-started | sort:"order" %}
+            {% for gs in gs_pages %}
+                <li><a href="{{ gs.url }}">{{ gs.title }}</a></li>
+            {% endfor %}            
+        </ul>
+    </li>
+    <li>
+        <a href="#DtkClient">Dtk Client</a>
+        <ul class="nav nav-stacked" >
+            {% assign client_pages = site.dtk-client | sort:"order" %}
+            {% for cp in client_pages %}
+                <li><a href="{{ cp.url }}">{{ cp.title }}</a></li>
+            {% endfor %}
+        </ul>
+    </li>
+    <li>
+        <a href="#Modules">Modules</a>
+        <ul class="nav nav-stacked" >
+            {% assign module_pages = site.modules | sort:"order" %}
+            {% for mp in module_pages %}
+                <li><a href="{{ mp.url }}">{{ mp.title }}</a></li>
+            {% endfor %}
+        </ul>
+    </li>
+    <li>
+        <a href="/api">API Reference</a>
+        <ul class="nav nav-stacked" >
+            {% assign api_pages = site.api | sort:"order" %}
+            {% for ap in api_pages %}
+                <li><a href="{{ ap.url }}">{{ ap.title }}</a></li>
+            {% endfor %}
+        </ul>
+    </li>
+    <li>
+        <a href="/faq">FAQ</a>
+    </li>
+    <li>
+        <a href="/glossary">Glossary</a>
+    </li>
+</ul>
