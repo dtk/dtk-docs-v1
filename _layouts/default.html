@@ -103,6 +103,18 @@
         </div>
         <div class="col-md-9" id="content" style="background-color: ;">
             {{ content }}
+            <div class="container-fluid text-center" style="margin-top: 50px;">
+                {% if page.previous_page != nil %}
+                <a class="btn btn-default btn-md" style="margin-right: 30px;" href="{{ site.siteBaseDir }}{{ page.previous_page.url }}">
+                    <i class="fa fa-arrow-left"></i>&nbsp;Previous
+                </a>
+                {% endif %}
+                {% if page.next_page != nil %}
+                <a class="btn btn-default btn-md" style="margin-left: 30px;" href="{{ site.siteBaseDir }}{{ page.next_page.url }}">
+                    Next&nbsp;<i class="fa fa-arrow-right"></i>
+                </a>
+                {% endif %}
+            </div>
         </div>
     </div>
 </div>
