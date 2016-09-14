@@ -22,45 +22,45 @@
 </style>
 <ul class="nav nav-stacked fixed" id="sidebar-list-wrapper">
     <li>
-        <a href="#GettingStarted">Getting Started</a>
+        <a href="{{ site.siteBaseDir }}/getting-started">Getting Started</a>
         <ul class="nav nav-stacked" >
             {% assign gs_pages = site.getting-started | sort:"order" %}
             {% for gs in gs_pages %}
-                <li><a href="{{ gs.url }}">{{ gs.title }}</a></li>
+                <li><a href="{{ site.siteBaseDir }}{{ gs.url }}">{{ gs.title }}</a></li>
             {% endfor %}            
         </ul>
     </li>
     <li>
-        <a href="#DtkClient">Dtk Client</a>
+        <a href="{{ site.siteBaseDir }}/dtk-client">Dtk Client</a>
         <ul class="nav nav-stacked" >
             {% assign client_pages = site.dtk-client | sort:"order" %}
             {% for cp in client_pages %}
-                <li><a href="{{ cp.url }}">{{ cp.title }}</a></li>
+                <li><a href="{{ site.siteBaseDir }}{{ cp.url }}">{{ cp.title }}</a></li>
             {% endfor %}
         </ul>
     </li>
     <li>
-        <a href="#Modules">Modules</a>
+        <a href="{{ site.siteBaseDir }}/modules">Modules</a>
         <ul class="nav nav-stacked" >
             {% assign module_pages = site.modules | sort:"order" %}
             {% for mp in module_pages %}
-                <li><a href="{{ mp.url }}">{{ mp.title }}</a></li>
+                <li><a href="{{ site.siteBaseDir }}{{ mp.url }}">{{ mp.title }}</a></li>
             {% endfor %}
         </ul>
     </li>
     <li>
-        <a href="/api">API Reference</a>
+        <a href="{{ site.siteBaseDir }}/api">API Reference</a>
         <ul class="nav nav-stacked" >
             {% assign api_pages = site.api | sort:"order" %}
             {% for ap in api_pages %}
-                <li><a href="{{ ap.url }}">{{ ap.title }}</a></li>
+                <li><a href="{{ site.siteBaseDir }}{{ ap.url }}">{{ ap.title }}</a></li>
             {% endfor %}
         </ul>
     </li>
     <li>
-        <a href="/faq">FAQ</a>
+        <a href="{{ site.siteBaseDir }}/faq">FAQ</a>
     </li>
     <li>
-        <a href="/glossary">Glossary</a>
+        <a href="{{ site.siteBaseDir }}/glossary">Glossary</a>
     </li>
 </ul>
