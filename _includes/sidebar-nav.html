@@ -31,15 +31,6 @@
         </ul>
     </li>
     <li>
-        <a href="{{ site.siteBaseDir }}/dtk-client">Dtk Client</a>
-        <ul class="nav nav-stacked" >
-            {% assign client_pages = site.dtk-client | sort:"order" %}
-            {% for cp in client_pages %}
-                <li><a href="{{ site.siteBaseDir }}{{ cp.url }}">{{ cp.title }}</a></li>
-            {% endfor %}
-        </ul>
-    </li>
-    <li>
         <a href="{{ site.siteBaseDir }}/modules">Modules</a>
         <ul class="nav nav-stacked" >
             {% assign module_pages = site.modules | sort:"order" %}
@@ -49,11 +40,38 @@
         </ul>
     </li>
     <li>
-        <a href="{{ site.siteBaseDir }}/api">API Reference</a>
+        <a href="{{ site.siteBaseDir }}/targets">Targets</a>
+        <ul class="nav nav-stacked" >
+            {% assign target_pages = site.targets | sort:"order" %}
+            {% for tp in target_pages %}
+                <li><a href="{{ site.siteBaseDir }}{{ tp.url }}">{{ tp.title }}</a></li>
+            {% endfor %}
+        </ul>
+    </li>
+    <li>
+        <a href="{{ site.siteBaseDir }}/dtk-client">Dtk Client</a>
+        <ul class="nav nav-stacked" >
+            {% assign client_pages = site.dtk-client | sort:"order" %}
+            {% for cp in client_pages %}
+                <li><a href="{{ site.siteBaseDir }}{{ cp.url }}">{{ cp.title }}</a></li>
+            {% endfor %}
+        </ul>
+    </li>
+    <li>
+        <a href="{{ site.siteBaseDir }}/api">Advanced</a>
         <ul class="nav nav-stacked" >
             {% assign api_pages = site.api | sort:"order" %}
             {% for ap in api_pages %}
                 <li><a href="{{ site.siteBaseDir }}{{ ap.url }}">{{ ap.title }}</a></li>
+            {% endfor %}
+        </ul>
+    </li>
+    <li>
+        <a href="{{ site.siteBaseDir }}/how-to">How To</a>
+        <ul class="nav nav-stacked" >
+            {% assign how_pages = site.how-to | sort:"order" %}
+            {% for hp in how_pages %}
+                <li><a href="{{ site.siteBaseDir }}{{ hp.url }}">{{ hp.title }}</a></li>
             {% endfor %}
         </ul>
     </li>

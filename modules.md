@@ -1,6 +1,8 @@
 ---
 title: Dkt Modules
-order: 1
+permalink: modules/index
 ---
+
+# Dtk Modules
 
 Module Place holder here so side menu iterator doesnt break

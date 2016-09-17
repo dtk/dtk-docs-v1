@@ -52,3 +52,12 @@ collections:
   api:
     output: true
     permalink: /api/:path.html
+  links:
+    output: true
+    permalink: /links/:path.html
+  how-to:
+    output: true
+    permalink: /api/:path.html
+  targets:
+    output: true
+    permalink: /targets/:path.html

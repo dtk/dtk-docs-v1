@@ -1,6 +1,6 @@
 ---
 title: Installing Single Node Example
-order: 50
+order: 1
 ---
 
 ## Single node app scenario

@@ -1,6 +1,6 @@
 ---
-title: Creating First Target
-order: 20
+title: Creating Your First Target
+order: 10
 ---
 
 In order to deploy Assemblies/Services in your own IT environments you must have 1 or more Providers.  This page will outline how to get started with your first provider, you can consult the Providers section for more usage and documentation details.  As a matter of better practices, we recommend using IAM users for granting access to your dtk instance when deploying dtk powered Services in your own AWS environment.
