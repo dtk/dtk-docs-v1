@@ -5,14 +5,17 @@ order: 20
 
 # Dtk 5 Minute Quickstart
 
-## Prereqs
-
-### Docker
-
+## Prerequisities
+In order to start using DTK, there are following prerequisities:
 
 ### AWS Account
+User needs to create AWS account because most provisioning done via DTK will be on AWS instances. For more info, please check: https://aws.amazon.com/account/
+
+### Docker
+User needs to install Docker because DTK Server is running inside docker container. For more info, please check: https://docs.docker.com/engine/installation/
 
 ## Quick install
+TODO /Content for DTK server and DTK client installation/
 
 ## Target setup
 Now that you have DTK up and running, first thing you need to do is to create target. You can think of a target as initial VPC (Virtual Private Cloud) infrastructure that needs to be set on AWS so user would be able to use DTK to provision new instances on AWS. In order to create target, you need to have VPC already created on AWS. For more information on how to create VPC, check: http://docs.aws.amazon.com/AmazonVPC/latest/GettingStartedGuide/getting-started-create-vpc.html
