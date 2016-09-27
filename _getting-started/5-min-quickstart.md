@@ -57,26 +57,21 @@ Please enter network_aws::iam_user[default]/aws_secret_access_key [STRING]:
 : <AWS_SECRET_ACCESS_KEY>
 Please enter network_aws::vpc[vpc1]/default_keypair [STRING]:
 : <DEFAULT_KEYPAIR>
-Please enter network_aws::vpc[vpc1]/vpc_id (AWS VPC id) [STRING]:
-: <VPC_ID>
-Please enter network_aws::vpc_subnet[vpc1-public]/subnet_length (Length of subnet that will be created) [STRING]:
-: <SUBNET_LENGTH>
 --------------------------------- DATA ---------------------------------
 network_aws::iam_user[default]/aws_access_key_id : <AWS_ACCESS_KEY_ID>
 network_aws::iam_user[default]/aws_secret_access_key : <AWS_SECRET_ACCESS_KEY>
 network_aws::vpc[vpc1]/default_keypair : <DEFAULT_KEYPAIR>
-network_aws::vpc[vpc1]/vpc_id (AWS VPC id) : <VPC_ID>
-network_aws::vpc_subnet[vpc1-public]/subnet_length (Length of subnet that will be created) : <SUBNET_LENGTH>
 ------------------------------------------------------------------------
 Is provided information ok? (yes|no) yes
 {% endhighlight %}
 
-Finally, we need to converge target
+There are multiple scenarios when configuring target (this will be discussed in DTK documentation) but the most straghtforward one is to setup target in same vpc where your DTK Server instance resides. To do that, no additional configuration is needed. Therefore, next step is to converge target
+
 {% highlight bash linenos %}
 dtk service converge -d dtk/network-target
 {% endhighlight %}
 
-If converge passed successfully, that means that we are ready to provision assembly templates in newly created target that actually points to specific subnet and vpc on AWS. 
+If converge passed successfully, that means that we are ready to provision assembly templates in newly created target that actually points to SAME vpc, subnet and security group where your DTK Server instance resides.
 
 ## Module installation and service provisioning
 In order to show how provisioning works via DTK, we will use basic example of assembly template that deploys apache web server.
