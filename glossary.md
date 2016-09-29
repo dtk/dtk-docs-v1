@@ -3,28 +3,28 @@ title: DTK Glossary
 permalink: glossary/index
 ---
 
-# DTK Glossary
+# Dtk Glossary
 
-**DTK Server** - Ruby based application which is running on an instance that handles requests from DTK Client. It manages users, installed components, does initial setup and deployment of service instances and performs node orchestration. 
+**Dtk Server** - The brains behind the operation, its an Application that powers workflow/orchestration tasks, and allows users to coordinate and work together across diciplines
 
-**DTK Client** - Ruby based CLI interface for communication with the DTK Server. Its main purpose is to expose DTK server functionalities for operations on modules and setup/deployment of module assemblies.
+**Dtk Client** - Our CLI tool and programmatic interface for Dtk development and interacting with your Dtk managed Services.
 
-**DTK Repo Manager** - Git based repository for publishing and installing modules and dependency modules. Users can install, publish, push and pull changes on modules. However, repoman also has fine grained access control which means not every module will be visible to every user.
+**Dtk Network** - Site for the Dtk community and public Service Catalog to publish and share modules with other developers.
 
-**DTK Arbiter** - Ruby process which runs on every node that is provisioned and enables communication with DTK server using STOMP protocol. It is used to run actions that are initiated from DTK Server.
+**Dtk Agent** - Process which runs on every Dtk managed node that enables communication with Dtk Server and carries out any Application or IT task the Dtk Server directs it to.
 
-**Target** - You can think of a target as initial VPC (Virtual Private Cloud) infrastructure that needs to be set on AWS so user would be able to use DTK to provision new instances on AWS.
+**Target** - You can think of a Target as managed context that all Services and Applications are deployed into.  An example would be an AWS Virtual Private Cloud (VPC), or a VSphere managed cluster.
 
-**Module** - Collection of logically similar assemblies (For example: module that contains Hadoop related assemblies). It also contains list of dependency modules whose components are used in those assemblies.
+**Components** - Building are your reusable building blocks for building up complex Services and Applications.  They are used to install and/or configure applications, packages, monitoring, etc.  Examples of Componets would be Mysql, Nginx, Hadoop, your custom application, AWS VPC, etc.
 
-**Assembly** - Logical topology which defines nodes that will be created, components that will be provisioned on those nodes and provision ordering.
+**Action** - Actions are the methods/functions available against an instance of a deployed Component.  Actions could be things like create/install, delete, upgrade, discover, etc.
 
-**Service instance** - Staged assembly which is ready to be provisioned. (You can think of service instance like instantiated object, while assembly is a class)
+**Assembly** - If Components are building blocks, Assemblies are topology definitions and sets of Components that are linked together to form comprehensive Services.  An example would be "three node application with a database, running in a VPC"
 
-**Dependency modules** - Logical collection of components. Each dependency module contains dtk.model.yaml which represents blueprint/interface towards components that belong to this dependency module and represents logical relationships between them.
+**Workflow** - A Worfklow defines a plan of execution tasks and Actions to be carried out against one or more Dtk managed Service Instances.  These tasks can be run against Components that are managed on physical/virtual nodes, or remotely againt external REST services (such as AWS resources).  By default the Dtk will auto-generate the default Workflows for you based on the Design/Toplogy of your Assembly.  You also have the ability to edit and create your how custom Workflows.
 
-**Components** - Building blocks for assemblies. They are used to install and/or configure software packages, services, tests and required libraries. Main engine behind components can be puppet manifest, ruby script or any type of linux CLI command.
+**Node** - Nodes contain components and can represent a physical, virtual, or container server 
 
-**Node** - Part of assembly and it contains one or more components. When converged, node is actually an AWS instance. There is also a special case of node called **assembly wide node** which runs on DTK Arbiter docker container on same instance where DTK Server docker container is started.
+**Module** - Modules handle the depedency management and packaging aspects of a Dtk solution.  They consist of reusable, logically grouped Components, Assemblies, and Targets.  An example of a module would be "aws_networking" which would contain Components for VPC, Subnet, Internet Gateway, etc.
 
-**Workflow** - Enables server instance orchestration. It defines set of components and actions that are going to be executed during converge process. It is especialy important in multi-node environments where orchestration and execution order has more importance. (for example: execute component A on node A, execute component B on node B, execute component C on node A.. etc)
+**Service/Service Instance** - An Application or Service that has been staged and deployed to a Target.  You can think of a Service Instance like an instantiated object, while an Assembly is a class definition
