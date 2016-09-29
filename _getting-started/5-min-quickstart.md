@@ -8,14 +8,71 @@ order: 20
 ## Prerequisities
 In order to start using DTK, there are following prerequisities:
 
-### AWS Account
+### AWS Account and EC2 instance
 User needs to create AWS account because most provisioning done via DTK will be on AWS instances. For more info, please check: https://aws.amazon.com/account
+Next thing to do is to start its own EC2 instance on AWS which will be instance where DTK Server will be installed
 
 ### Docker
-User needs to install Docker because DTK Server is running inside docker container. For more info, please check: https://docs.docker.com/engine/installation
+User needs to install Docker because DTK Server and DTK Arbiter are running inside docker container. For more info, please check: https://docs.docker.com/engine/installation
 
 ## Quick install
-TODO /Content for DTK server and DTK client installation/
+Having all prerequisites fulfilled, we will first install DTK server. In order to do that, login to your AWS instance and pull latest docker images for dtk-server and dtk-arbiter from Docker Hub:
+
+{% highlight bash linenos %}
+docker-client@ip-172-30-8-55:~$ docker pull getdtk/dtk-server
+docker-client@ip-172-30-8-55:~$ docker pull getdtk/dtk-arbiter
+{% endhighlight %}
+
+Next, you need to create dtk.config file which will be used for running both server and arbiter. 
+
+First create, directory which will serve as mounted host volume for your containers
+{% highlight bash linenos %}
+docker-client@ip-172-30-8-55:~$ mkdir dtk
+docker-client@ip-172-30-8-55:~$ cd dtk
+docker-client@ip-172-30-8-55:~/dtk$
+{% endhighlight %}
+
+Next, create configuration file called: dtk.config inside directory from above. Add following content in dtk.config file:
+{% highlight bash linenos %}
+USERNAME=<USERNAME>
+PASSWORD=<PASSWORD>
+PUBLIC_ADDRESS=<PUBLIC_ADDRESS>
+{% endhighlight %}
+
+USERNAME and PASSWORD are credentials which will be used to connect to your DTK Server instance. PUBLIC_ADDRESS is actually an address of your instance where DTK Server is installed (hint: ec2 public dns).
+
+Now we can move on to the actual installation of DTK Server using command:
+{% highlight bash linenos %}
+\curl -sSL https://getserver.dtk.io | bash -s <DTK_CONFIG_DIRECTORY>
+{% endhighlight %}
+
+In this example, that is:
+{% highlight bash linenos %}
+\curl -sSL https://getserver.dtk.io | bash -s /home/docker-client/dtk
+{% endhighlight %}
+
+Thats it. You have your DTK Server up and running. Next thing to do is to install DTK Client that we will connect to this DTK Server instance. You can install DTK Client on any machine that will have http access towards the DTK Server. If you are installing DTK Client on different machine from DTK Server (which is the usual case), you will need dtk.config file again. Create dtk.config file in any directory you want, populate it with SAME values you used in dtk.config for DTK Server and run following command:
+
+{% highlight bash linenos %}
+\curl -sSL https://getclient.dtk.io | bash -s <DTK_CONFIG_DIRECTORY>
+{% endhighlight %}
+
+In this example, that is:
+{% highlight bash linenos %}
+$ curl -sSL https://getclient.dtk.io | bash -s dtk/
+This script will do the following:
+
+* Install the dtk-client gem
+* Genereate an SSH keypair for the selected user (if it does not exist)
+* Genereate dtk-client configuration files
+
+Installing dtk-client gem
+1 gem installed
+{% endhighlight %}
+
+DTK Client also has its own dtk directory which will be generated on your home directory and it contains generated client configuration. You are now able to login using DTK Client for the first time and connect to your DTK Server instance:
+
+<TODO...add details on first login>
 
 ## Target setup
 Now that you have DTK up and running, first thing you need to do is to create target. You can think of a target as initial VPC (Virtual Private Cloud) infrastructure that needs to be set on AWS so user would be able to use DTK to provision new instances on AWS. In order to create target, you need to have VPC already created on AWS. For more information on how to create VPC, check: http://docs.aws.amazon.com/AmazonVPC/latest/GettingStartedGuide/getting-started-create-vpc.html
