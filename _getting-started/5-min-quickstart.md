@@ -19,17 +19,17 @@ User needs to install Docker because DTK Server and DTK Arbiter are running insi
 Having all prerequisites fulfilled, we will first install DTK server. In order to do that, login to your AWS instance and pull latest docker images for dtk-server and dtk-arbiter from Docker Hub:
 
 {% highlight bash linenos %}
-docker-client@ip-172-30-8-55:~$ docker pull getdtk/dtk-server
-docker-client@ip-172-30-8-55:~$ docker pull getdtk/dtk-arbiter
+~$ docker pull getdtk/dtk-server
+~$ docker pull getdtk/dtk-arbiter
 {% endhighlight %}
 
 Next, you need to create dtk.config file which will be used for running both server and arbiter. 
 
 First create, directory which will serve as mounted host volume for your containers
 {% highlight bash linenos %}
-docker-client@ip-172-30-8-55:~$ mkdir dtk
-docker-client@ip-172-30-8-55:~$ cd dtk
-docker-client@ip-172-30-8-55:~/dtk$
+~$ mkdir dtk
+~$ cd dtk
+~/dtk$
 {% endhighlight %}
 
 Next, create configuration file called: dtk.config inside directory from above. Add following content in dtk.config file:
@@ -59,7 +59,7 @@ Thats it. You have your DTK Server up and running. Next thing to do is to instal
 
 In this example, that is:
 {% highlight bash linenos %}
-$ curl -sSL https://getclient.dtk.io | bash -s dtk/
+\curl -sSL https://getclient.dtk.io | bash -s dtk/
 This script will do the following:
 
 * Install the dtk-client gem
@@ -100,7 +100,7 @@ Now that we have target related module installed, it is time to create new targe
 First, we will stage new target
 {% highlight bash linenos %}
 dtk service stage --target -d /tmp/network_aws
-[INFO] Service instance 'network-target' has been created. In order to work with service instance, please navigate to: /home/docker-client/dtk/network-target
+[INFO] Service instance 'network-target' has been created. In order to work with service instance, please navigate to: /home/.../dtk/network-target
 {% endhighlight %}
 
 After staging target, we need to set required attributes (aws related attributes) for staged target
@@ -135,8 +135,8 @@ In order to show how provisioning works via DTK, we will use basic example of as
 
 In order to do that, we need to install dtk-example/apache module:
 {% highlight bash linenos %}
-docker-client@ip-172-30-0-247:/tmp$ mkdir apache
-docker-client@ip-172-30-0-247:/tmp/apache$ dtk module install -v 0.0.1 dtk-examples/apache
+~$ mkdir apache
+dtk module install -v 0.0.1 dtk-examples/apache
 [INFO] Auto-importing dependencies
 Importing module 'puppetlabs:apache' ...
 Importing module 'puppetlabs:concat' ... [INFO] Done.
@@ -149,13 +149,13 @@ Importing module 'dtk-examples:simple_app' ... [INFO] Done.
 
 Now that we have module installed, next thing is to stage assembly template from that module. We can do that using following command:
 {% highlight bash linenos %}
-docker-client@ip-172-30-0-247:/tmp/apache$ dtk service stage
-[INFO] Service instance 'apache-simple' has been created. In order to work with service instance, please navigate to: /home/docker-client/dtk/apache-simple
+/tmp/apache$ dtk service stage
+[INFO] Service instance 'apache-simple' has been created. In order to work with service instance, please navigate to: /home/.../dtk/apache-simple
 {% endhighlight %}
 
 Next, we need to position to service instance directory and set required attributes:
 {% highlight bash linenos %}
-docker-client@ip-172-30-0-247:~/dtk/apache-simple$ dtk service set-required-attributes
+~/dtk/apache-simple$ dtk service set-required-attributes
 
 Please fill in missing data.
 Please enter test/image (Logical term describing the image) [STRING]:
@@ -168,10 +168,10 @@ Is provided information ok? (yes|no) yes
 
 Finally, we will converge service instance and observe results:
 {% highlight bash linenos %}
-docker-client@ip-172-30-0-247:~/dtk/apache-simple$ dtk service converge
+~/dtk/apache-simple$ dtk service converge
 ---
 task_id: 2147487569
-docker-client@ip-172-30-0-247:~/dtk/apache-simple$ dtk service task-status
+~/dtk/apache-simple$ dtk service task-status
 +------------------------+-----------+------+----------+-------------------+----------+
 | TASK TYPE              | STATUS    | NODE | DURATION | STARTED AT        | ENDED AT |
 +------------------------+-----------+------+----------+-------------------+----------+
@@ -182,7 +182,7 @@ docker-client@ip-172-30-0-247:~/dtk/apache-simple$ dtk service task-status
 +------------------------+-----------+------+----------+-------------------+----------+
 4 rows in set
 ...
-docker-client@ip-172-30-0-247:~/dtk/apache-simple$ dtk service task-status
+~/dtk/apache-simple$ dtk service task-status
 +------------------------+-----------+------+----------+-------------------+-------------------+
 | TASK TYPE              | STATUS    | NODE | DURATION | STARTED AT        | ENDED AT          |
 +------------------------+-----------+------+----------+-------------------+-------------------+
@@ -196,7 +196,7 @@ docker-client@ip-172-30-0-247:~/dtk/apache-simple$ dtk service task-status
 
 To check what has been done, you can pick up ec2 public dns address of converged service instance and paste in browser:
 {% highlight bash linenos %}
-docker-client@ip-172-30-0-247:~/dtk/apache-simple$ dtk service list-nodes
+~/dtk/apache-simple$ dtk service list-nodes
 +------------+------+-------------+----------+--------------+-----------+--------------------------------------------+
 | ID         | NAME | INSTANCE ID | SIZE     | OS           | OP STATUS | DNS NAME                                   |
 +------------+------+-------------+----------+--------------+-----------+--------------------------------------------+
