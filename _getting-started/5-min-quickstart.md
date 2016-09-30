@@ -6,17 +6,17 @@ order: 20
 # Dtk 5 Minute Quickstart
 
 ## Prerequisities
-In order to start using DTK, there are following prerequisities:
+In order to start using Dtk, there are following prerequisities:
 
 ### AWS Account and EC2 instance
-User needs to create AWS account because most provisioning done via DTK will be on AWS instances. For more info, please check: https://aws.amazon.com/account
-Next thing to do is to start its own EC2 instance on AWS which will be instance where DTK Server will be installed
+User needs to create AWS account because most provisioning done via Dtk will be on AWS instances. For more info, please check: https://aws.amazon.com/account
+Next thing to do is to start its own EC2 instance on AWS which will be instance where Dtk Server will be installed
 
 ### Docker
-User needs to install Docker because DTK Server and DTK Arbiter are running inside docker container. For more info, please check: https://docs.docker.com/engine/installation
+User needs to install Docker because Dtk Server and Dtk Arbiter are running inside docker container. For more info, please check: https://docs.docker.com/engine/installation
 
 ## Quick install
-Having all prerequisites fulfilled, we will first install DTK server. In order to do that, login to your AWS instance and pull latest docker images for dtk-server and dtk-arbiter from Docker Hub:
+Having all prerequisites fulfilled, we will first install Dtk server. In order to do that, login to your AWS instance and pull latest docker images for dtk-server and dtk-arbiter from Docker Hub:
 
 {% highlight bash linenos %}
 ~$ docker pull getdtk/dtk-server
@@ -51,15 +51,15 @@ In this example, that is:
 \curl -sSL https://getserver.dtk.io | bash -s /home/docker-client/dtk
 {% endhighlight %}
 
-Thats it. You have your DTK Server up and running. Next thing to do is to install DTK Client that we will connect to this DTK Server instance. You can install DTK Client on any machine that will have http access towards the DTK Server. If you are installing DTK Client on different machine from DTK Server (which is the usual case), you will need dtk.config file again. Create dtk.config file in any directory you want, populate it with SAME values you used in dtk.config for DTK Server and run following command:
+Thats it. You have your Dtk Server up and running. Next thing to do is to install Dtk Client that we will connect to this Dtk Server instance. You can install Dtk Client on any machine that will have http access towards the Dtk Server. If you are installing Dtk Client on different machine from Dtk Server (which is the usual case), you will need dtk.config file again. Create dtk.config file in any directory you want, populate it with SAME values you used in dtk.config for Dtk Server and run following command:
 
 {% highlight bash linenos %}
 \curl -sSL https://getclient.dtk.io | bash -s <DTK_CONFIG_DIRECTORY>
 {% endhighlight %}
 
-In this example, that is:
+In this example, assuming that dtk.config is located in /dtk that is:
 {% highlight bash linenos %}
-\curl -sSL https://getclient.dtk.io | bash -s dtk/
+\curl -sSL https://getclient.dtk.io | bash -s /dtk/
 This script will do the following:
 
 * Install the dtk-client gem
@@ -70,12 +70,35 @@ Installing dtk-client gem
 1 gem installed
 {% endhighlight %}
 
-DTK Client also has its own dtk directory which will be generated on your home directory and it contains generated client configuration. You are now able to login using DTK Client for the first time and connect to your DTK Server instance:
+Dtk Client also has its own ~/dtk directory which will be generated on your home directory and it contains generated client configuration. You are now able to login using Dtk Client for the first time and connect to your Dtk Server instance:
 
-<TODO...add details on first login>
+{% highlight bash linenos %}
+~$ dtk
+[INFO] Processing ...
+Do you have DTK catalog credentials? (yes|no)
+no
+[INFO] SSH key '...' added successfully!
+NAME
+    dtk - DTK CLI tool
+
+SYNOPSIS
+    dtk [global options] command [command options] [arguments...]
+
+VERSION
+    0.10.0.2
+
+GLOBAL OPTIONS
+    --help    - Show this message
+    --version - Display the program version
+
+COMMANDS
+    help    - Shows a list of commands or help for one command
+    module  - Subcommands for interacting with DTK modules
+    service - Subcommands for creating and interacting with DTK service instances
+{% endhighlight %}
 
 ## Target setup
-Now that you have DTK up and running, first thing you need to do is to create target. You can think of a target as initial VPC (Virtual Private Cloud) infrastructure that needs to be set on AWS so user would be able to use DTK to provision new instances on AWS. In order to create target, you need to have VPC already created on AWS. For more information on how to create VPC, check: http://docs.aws.amazon.com/AmazonVPC/latest/GettingStartedGuide/getting-started-create-vpc.html
+Now that you have Dtk up and running, first thing you need to do is to create target. You can think of a target as initial VPC (Virtual Private Cloud) infrastructure that needs to be set on AWS so user would be able to use Dtk to provision new instances on AWS. In order to create target, you need to have VPC already created on AWS. For more information on how to create VPC, check: http://docs.aws.amazon.com/AmazonVPC/latest/GettingStartedGuide/getting-started-create-vpc.html
 
 Next thing to do is to install target related module:
 
@@ -122,16 +145,16 @@ network_aws::vpc[vpc1]/default_keypair : <DEFAULT_KEYPAIR>
 Is provided information ok? (yes|no) yes
 {% endhighlight %}
 
-There are multiple scenarios when configuring target (this will be discussed in DTK documentation) but the most straghtforward one is to setup target in same vpc where your DTK Server instance resides. To do that, no additional configuration is needed. Therefore, next step is to converge target
+There are multiple scenarios when configuring target (this will be discussed in Dtk documentation) but the most straghtforward one is to setup target in same vpc where your Dtk Server instance resides. To do that, no additional configuration is needed. Therefore, next step is to converge target
 
 {% highlight bash linenos %}
 dtk service converge -d dtk/network-target
 {% endhighlight %}
 
-If converge passed successfully, that means that we are ready to provision assembly templates in newly created target that actually points to SAME vpc, subnet and security group where your DTK Server instance resides.
+If converge passed successfully, that means that we are ready to provision assembly templates in newly created target that actually points to SAME vpc, subnet and security group where your Dtk Server instance resides.
 
 ## Module installation and service provisioning
-In order to show how provisioning works via DTK, we will use basic example of assembly template that deploys apache web server.
+In order to show how provisioning works via Dtk, we will use basic example of assembly template that deploys apache web server.
 
 In order to do that, we need to install dtk-example/apache module:
 {% highlight bash linenos %}
