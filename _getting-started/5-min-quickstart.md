@@ -100,17 +100,24 @@ COMMANDS
 ## Target setup
 Now that you have Dtk up and running, first thing you need to do is to create target. You can think of a target as initial VPC (Virtual Private Cloud) infrastructure that needs to be set on AWS so user would be able to use Dtk to provision new instances on AWS. In order to create target, you need to have VPC already created on AWS. For more information on how to create VPC, check: http://docs.aws.amazon.com/AmazonVPC/latest/GettingStartedGuide/getting-started-create-vpc.html
 
+To be able to configure and deploy anything via Dtk, we need to install modules. Modules are installed on Dtk Server and cloned on local filesystem where Dtk Client resides. Now is a good time to create special directory where installed modules will be cloned
+
+{% highlight bash linenos %}
+~$ mkdir modules
+{% endhighlight %}
+
 Next thing to do is to install target related module:
 
 {% highlight bash linenos %}
-dtk module install -d /tmp/network_aws -v 1.0.0 aws/network
+~$ mkdir modules/target
+~$ dtk module install -d modules/target -v 1.0.0 aws/network
 [INFO] Auto-importing dependencies
 Using module 'aws:ec2'
 Using module 'aws:image_aws'
 Importing module 'aws:network_aws' ... [INFO] Done.
 [INFO] Successfully imported 'aws:network' version 1.0.0
 
-dtk module list-assemblies -d /tmp/network_aws
+~$ dtk module list-assemblies -d modules/target
 +------------+---------------+-------+-------------+
 | ID         | ASSEMBLY NAME | NODES | DESCRIPTION |
 +------------+---------------+-------+-------------+
@@ -122,13 +129,13 @@ Now that we have target related module installed, it is time to create new targe
 
 First, we will stage new target
 {% highlight bash linenos %}
-dtk service stage --target -d /tmp/network_aws
+~$ dtk service stage --target -d modules/target
 [INFO] Service instance 'network-target' has been created. In order to work with service instance, please navigate to: /home/.../dtk/network-target
 {% endhighlight %}
 
 After staging target, we need to set required attributes (aws related attributes) for staged target
 {% highlight bash linenos %}
-dtk service set-required-attributes -d dtk/network-target
+~$ dtk service set-required-attributes -d dtk/network-target
 
 Please fill in missing data.
 Please enter network_aws::iam_user[default]/aws_access_key_id [STRING]:
@@ -148,7 +155,7 @@ Is provided information ok? (yes|no) yes
 There are multiple scenarios when configuring target (this will be discussed in Dtk documentation) but the most straghtforward one is to setup target in same vpc where your Dtk Server instance resides. To do that, no additional configuration is needed. Therefore, next step is to converge target
 
 {% highlight bash linenos %}
-dtk service converge -d dtk/network-target
+~$ dtk service converge -d dtk/network-target
 {% endhighlight %}
 
 If converge passed successfully, that means that we are ready to provision assembly templates in newly created target that actually points to SAME vpc, subnet and security group where your Dtk Server instance resides.
@@ -158,8 +165,8 @@ In order to show how provisioning works via Dtk, we will use basic example of as
 
 In order to do that, we need to install dtk-example/apache module:
 {% highlight bash linenos %}
-~$ mkdir apache
-dtk module install -v 0.0.1 dtk-examples/apache
+~$ mkdir modules/apache
+~$ dtk module install -d modules/apache -v 0.0.1 dtk-examples/apache
 [INFO] Auto-importing dependencies
 Importing module 'puppetlabs:apache' ...
 Importing module 'puppetlabs:concat' ... [INFO] Done.
@@ -172,13 +179,13 @@ Importing module 'dtk-examples:simple_app' ... [INFO] Done.
 
 Now that we have module installed, next thing is to stage assembly template from that module. We can do that using following command:
 {% highlight bash linenos %}
-/tmp/apache$ dtk service stage
+~$ dtk service stage -d modules/apache
 [INFO] Service instance 'apache-simple' has been created. In order to work with service instance, please navigate to: /home/.../dtk/apache-simple
 {% endhighlight %}
 
 Next, we need to position to service instance directory and set required attributes:
 {% highlight bash linenos %}
-~/dtk/apache-simple$ dtk service set-required-attributes
+~$ dtk service set-required-attributes -d dtk/apache-simple
 
 Please fill in missing data.
 Please enter test/image (Logical term describing the image) [STRING]:
@@ -191,9 +198,10 @@ Is provided information ok? (yes|no) yes
 
 Finally, we will converge service instance and observe results:
 {% highlight bash linenos %}
-~/dtk/apache-simple$ dtk service converge
+~$ dtk service converge -d dtk/apache-simple
 ---
 task_id: 2147487569
+~$ cd dtk/apache-simple
 ~/dtk/apache-simple$ dtk service task-status
 +------------------------+-----------+------+----------+-------------------+----------+
 | TASK TYPE              | STATUS    | NODE | DURATION | STARTED AT        | ENDED AT |
