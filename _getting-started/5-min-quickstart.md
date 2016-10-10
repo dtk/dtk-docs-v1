@@ -181,7 +181,7 @@ Using module 'puppetlabs:concat' version: master
 
 Now that we have module installed, next thing is to stage assembly template from that module. We can do that using following command:
 {% highlight bash linenos %}
-~/modules/example$ dtk service stage
+~/modules/wordpress$ dtk service stage
 [INFO] Service instance 'wordpress-wordpress_single_node' has been created. In order to work with service instance, please navigate to: /home/docker-client/dtk/service/wordpress-wordpress_single_node
 {% endhighlight %}
 
