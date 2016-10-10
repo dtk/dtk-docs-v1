@@ -185,7 +185,7 @@ Now that we have module installed, next thing is to stage assembly template from
 [INFO] Service instance 'wordpress-wordpress_single_node' has been created. In order to work with service instance, please navigate to: /home/docker-client/dtk/service/wordpress-wordpress_single_node
 {% endhighlight %}
 
-Next, we need to position to service instance directory and set required attributes:
+Next, we need to position to service instance directory, set required attributes and converge service instance:
 {% highlight bash linenos %}
 ~/dtk/service/wordpress-wordpress_single_node$ dtk service set-required-attributes
 
