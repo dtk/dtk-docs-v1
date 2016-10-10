@@ -13,6 +13,7 @@ User needs to create AWS account because most provisioning done via Dtk will be 
 Next thing to do is to create IAM role with name: dtk-root and give following privileges:
 - AmazonEC2FullAccess
 - AmazonVPCFullAccess
+
 This role will be used when creating EC2 instance instance so you don't have to provide root aws access and secret key when creating Dtk target (more on Dtk targets later)
 
 Next thing is to start your own EC2 instance on AWS which will be instance where Dtk Server will be installed
