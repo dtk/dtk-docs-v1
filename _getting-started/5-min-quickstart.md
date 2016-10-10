@@ -14,9 +14,7 @@ Next thing to do is to create IAM role with name: dtk-root and give following pr
 - AmazonEC2FullAccess
 - AmazonVPCFullAccess
 
-This role will be used when creating EC2 instance instance so you don't have to provide root aws access and secret key when creating Dtk target (more on Dtk targets later)
-
-Next thing is to start your own EC2 instance on AWS which will be instance where Dtk Server will be installed
+Next thing is to start your own EC2 instance on AWS which will be instance where Dtk Server will be installed. When launching new EC2 instance, please specify dtk-root role as IAM role. This will eliminate need for you to provide root aws access and secret key when creating Dtk target (more on Dtk targets later)
 
 ### Docker
 User needs to install Docker because Dtk Server and Dtk Arbiter are running inside docker container. For more info, please check: https://docs.docker.com/engine/installation
