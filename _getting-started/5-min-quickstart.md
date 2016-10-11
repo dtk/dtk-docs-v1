@@ -9,7 +9,7 @@ order: 20
 In order to start using Dtk, there are following prerequisities:
 
 ### AWS Account and EC2 instance
-User needs to create AWS account because most provisioning done via Dtk will be on AWS instances. For more info, please check: <a href="https://aws.amazon.com/account" target="_blank">aws_account</a>
+User needs to create AWS account because most provisioning done via Dtk will be on AWS instances. For more info, please check: <a href="https://aws.amazon.com/account" target="_blank">aws-account</a>
 Next thing to do is to create IAM role with name: dtk-root and give following privileges:
 - AmazonEC2FullAccess
 - AmazonVPCFullAccess
@@ -19,7 +19,7 @@ For more info on how to create IAM role, please check: <a href="http://docs.aws.
 Next thing is to start your own EC2 instance on AWS which will be instance where Dtk server will be installed. When launching new EC2 instance, please specify dtk-root role as IAM role. This will eliminate need for you to provide root aws access and secret key when creating Dtk target (more on Dtk targets later)
 
 ### Docker
-User needs to install Docker because Dtk Server and Dtk Arbiter are running inside docker container. For more info on how to install Docker, please check: <a href="https://docs.docker.com/engine/installation" target="_blank">docker_installation</a>
+User needs to install Docker because Dtk Server and Dtk Arbiter are running inside docker container. For more info on how to install Docker, please check: <a href="https://docs.docker.com/engine/installation" target="_blank">docker-installation</a>
 
 ## Quick install
 Having all prerequisites fulfilled, we will first install Dtk server. In order to do that, login to your AWS instance and pull latest docker images for dtk-server and dtk-arbiter from Docker Hub:
