@@ -10,6 +10,7 @@ In order to start using Dtk, there are following prerequisities:
 
 ### AWS Account and EC2 instance
 User needs to create AWS account because most provisioning done via Dtk will be on AWS instances. For more info, please check: <a href="https://aws.amazon.com/account" target="_blank">aws-account</a>
+
 Next thing to do is to create IAM role with name: dtk-root and give following privileges:
 - AmazonEC2FullAccess
 - AmazonVPCFullAccess
