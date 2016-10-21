@@ -11,13 +11,7 @@ In order to start using Dtk, there are following prerequisities:
 ### AWS Account and EC2 instance
 User needs to create AWS account because most provisioning done via Dtk will be on AWS instances. For more info, please check: <a href="https://aws.amazon.com/account" target="_blank">aws-account</a>
 
-Next thing to do is to create IAM role with name: dtk-root and give following privileges:
-- AmazonEC2FullAccess
-- AmazonVPCFullAccess
-
-For more info on how to create IAM role, please check: <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/iam-roles-for-amazon-ec2.html" target="_blank">iam-roles-for-amazon-ec2</a>
-
-Next thing is to start your own EC2 instance on AWS which will be instance where Dtk server will be installed. When launching new EC2 instance, please specify dtk-root role as IAM role. This will eliminate need for you to provide root aws access and secret key when creating Dtk target (more on Dtk targets later)
+Next thing is to start your own EC2 instance on AWS which will be instance where Dtk server will be installed
 
 ### Docker
 User needs to install Docker because Dtk Server and Dtk Arbiter are running inside docker container. For more info on how to install Docker, please check: <a href="https://docs.docker.com/engine/installation" target="_blank">docker-installation</a>
@@ -58,7 +52,7 @@ In this example, that is:
 \curl -sSL https://getserver.dtk.io | bash -s /home/docker-client/dtk
 {% endhighlight %}
 
-Thats it. You have your Dtk server up and running. Next thing to do is to install Dtk client that we will connect to this Dtk server instance. You can install Dtk client on any machine that will have http access towards the Dtk server. If you are installing Dtk client on different machine from Dtk server (which is the usual case), you will need dtk.config file again. Create dtk.config file in any directory you want, populate it with SAME values you used in dtk.config for Dtk server and run following command:
+That's it. You have your Dtk server up and running. Next thing to do is to install Dtk client that we will connect to this Dtk server instance. You can install Dtk client on any machine that will have http access towards the Dtk server. If you are installing Dtk client on different machine from Dtk server (which is the usual case), you will need dtk.config file again. Create dtk.config file in any directory you want, populate it with SAME values you used in dtk.config for Dtk server and run following command:
 
 {% highlight bash linenos %}
 \curl -sSL https://getclient.dtk.io | bash -s <DTK_CONFIG_DIRECTORY>
@@ -148,9 +142,15 @@ After staging target, we need to set required attributes for staged target
 ~/dtk/service/network-target$ dtk service set-required-attributes
 
 Please fill in missing data.
+Please enter identity_aws::credentials/aws_access_key_id [STRING]:
+: <AWS_ACCESS_KEY_ID>
+Please enter identity_aws::credentials/aws_secret_access_key [STRING]:
+: <AWS_SECRET_ACCESS_KEY>
 Please enter network_aws::vpc[vpc1]/default_keypair [STRING]:
 : <DEFAULT_KEYPAIR>
 --------------------------------- DATA ---------------------------------
+identity_aws::credentials/aws_access_key_id : <AWS_ACCESS_KEY_ID>
+identity_aws::credentials/aws_secret_access_key : <AWS_SECRET_ACCESS_KEY>
 network_aws::vpc[vpc1]/default_keypair : <DEFAULT_KEYPAIR>
 ------------------------------------------------------------------------
 Is provided information ok? (yes|no) yes
