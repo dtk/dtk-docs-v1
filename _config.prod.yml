@@ -58,6 +58,9 @@ collections:
   targets:
     output: true
     permalink: /targets/:path.html
+  components:
+    output: true
+    permalink: /components/:path.html
 
 google_analytics_embed: "<script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

@@ -61,5 +61,8 @@ collections:
   targets:
     output: true
     permalink: /targets/:path.html
+  components:
+    output: true
+    permalink: /components/:path.html
 
 google_analytics_embed: ""

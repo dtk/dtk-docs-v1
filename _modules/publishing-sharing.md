@@ -1,6 +1,6 @@
 ---
 title: Publishing & Sharing Dtk Modules
-order: 30
+order: 20
 ---
 
 # How To Publish & Share Dtk Modules

@@ -49,6 +49,15 @@
         </ul>
     </li>
     <li>
+        <a href="{{ site.siteBaseDir }}/components">Components</a>
+        <ul class="nav nav-stacked" >
+            {% assign component_pages = site.components | sort:"order" %}
+            {% for cp in component_pages %}
+                <li><a href="{{ site.siteBaseDir }}{{ tp.url }}">{{ cp.title }}</a></li>
+            {% endfor %}
+        </ul>
+    </li>
+    <li>
         <a href="{{ site.siteBaseDir }}/dtk-client">Dtk Client</a>
         <ul class="nav nav-stacked" >
             {% assign client_pages = site.dtk-client | sort:"order" %}

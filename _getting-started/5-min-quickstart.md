@@ -6,77 +6,90 @@ order: 20
 # Dtk 5 Minute Quickstart
 
 ## Prerequisities
-In order to start using Dtk, there are following prerequisities:
+In order to start using Dtk via the quickstart method, there are following prerequisities:
 
-### AWS Account and EC2 instance
-User needs to create AWS account because most provisioning done via Dtk will be on AWS instances. For more info, please check: <a href="https://aws.amazon.com/account" target="_blank">aws-account</a>
+  1. **Running EC2 Instance:** Make sure to have an AWS account handy, and a running EC2 instance that supports docker where you can deploy the Dtk software.  The EC2 instance doesnt have to be a large server, something like an m3.medium will be sufficient. 
+  2. **Docker Installed:** Docker is required for the quickstart as we distribute the various Dtk pieces of software inside docker containers.  For more info on how to install Docker, please check: <a href="https://docs.docker.com/engine/installation" target="_blank">docker-installation</a>
+  3. **AWS VPC Instance:**  We will use a pre-existing VPC for this Quickstart demo.  If you do not have one consult the AWS docs to learn more about creating one: <a href="http://docs.aws.amazon.com/AmazonVPC/latest/GettingStartedGuide/getting-started-create-vpc.html" target="_blank">getting-started-create-vpc</a>.
+  4. **AWS IAM Credentials:** The Dtk will use IAM credentials to carry out actions such as EC2 machine deployment.  Make sure the IAM user you use has access to the VPC from step 3 above.
 
-Next thing is to start your own EC2 instance on AWS which will be instance where Dtk server will be installed
 
-### Docker
-User needs to install Docker because Dtk Server and Dtk Arbiter are running inside docker container. For more info on how to install Docker, please check: <a href="https://docs.docker.com/engine/installation" target="_blank">docker-installation</a>
 
-## Quick install
-Having all prerequisites fulfilled, we will first install Dtk server. In order to do that, login to your AWS instance and pull latest docker images for dtk-server and dtk-arbiter from Docker Hub:
+## Quickstart Install
+
+### Installing the Dtk Server
+
+Having all prerequisites fulfilled, we will first install the various containers we distribute for the Quickstart.  Login to your AWS instance and pull latest docker images for dtk-server and dtk-arbiter from Docker Hub:
 
 {% highlight bash linenos %}
 ~$ docker pull getdtk/dtk-server
 ~$ docker pull getdtk/dtk-arbiter
 {% endhighlight %}
 
-Next, you need to create dtk.config file which will be used for running both server and arbiter. 
-
-First, create directory which will serve as mounted host volume for your containers
+Create a directory which will serve as mounted host volume for your containers
 {% highlight bash linenos %}
-~$ mkdir dtk
-~$ cd dtk
-~/dtk$
+~$ mkdir dtk-server
+~$ cd dtk-server
+~/dtk-server$
 {% endhighlight %}
 
-Next, create configuration file called: dtk.config inside directory from above. Add following content in dtk.config file:
+Next, create configuration file called `dtk.config` inside directory from above. Add following content in `dtk.config` file:
 {% highlight bash linenos %}
 USERNAME=<USERNAME>
 PASSWORD=<PASSWORD>
 PUBLIC_ADDRESS=<PUBLIC_ADDRESS>
 {% endhighlight %}
 
-USERNAME and PASSWORD are credentials which will be used to connect to your DTK Server instance. PUBLIC_ADDRESS is actually an address of your instance where DTK Server is installed (hint: ec2 public dns).
+  * **USERNAME/PASSWORD:** credentials which will be used to connect to your Dtk Server instance
+  * **PUBLIC_ADDRESS:** the accessible address of your EC2 instance you are installing the Dtk Server(ie: ec2 public dns or IP)
 
-Now we can move on to the actual installation of DTK Server using command:
+Run the installation script:
 {% highlight bash linenos %}
 \curl -sSL https://getserver.dtk.io | bash -s <DTK_CONFIG_DIRECTORY>
 {% endhighlight %}
 
 In this example, that is:
 {% highlight bash linenos %}
-\curl -sSL https://getserver.dtk.io | bash -s /home/docker-client/dtk
+\curl -sSL https://getserver.dtk.io | bash -s /home/ubuntu/dtk-server
 {% endhighlight %}
 
-That's it. You have your Dtk server up and running. Next thing to do is to install Dtk client that we will connect to this Dtk server instance. You can install Dtk client on any machine that will have http access towards the Dtk server. If you are installing Dtk client on different machine from Dtk server (which is the usual case), you will need dtk.config file again. Create dtk.config file in any directory you want, populate it with SAME values you used in dtk.config for Dtk server and run following command:
+You should have have your server up and running.  Next we will install the Dtk Client that will be the primary way you interact with your new Dtk Server.
 
+### Installing the Dtk Client
+
+Now we will install the Dtk Client.  For the Quickstart you can install Dtk Client on the same machine as the Server.  Typically you will install on a remote machine or on your local dev machine.  The Dtk Client can run on any machine that supports ruby and has IP connectivity to the Dtk Server defined at the **PUBLIC_ADDRESS** value in the `dtk.config` file.
+
+Create a Client install script configuration file called `dtk.config`.  You can use the same one if installing on the Server machine, else copy the credentials and PUBLIC_ADDRESS you set in the Server config and write to a local `dtk.config` file:
+{% highlight bash linenos %}
+USERNAME=<USERNAME>
+PASSWORD=<PASSWORD>
+PUBLIC_ADDRESS=<PUBLIC_ADDRESS>
+{% endhighlight %}
+
+Run the Client install script.  If installing on the same machine as the Server use the same `dtk` directory path for the **DTK_CONFIG_DIRECTORY** value used in the Server installation:
 {% highlight bash linenos %}
 \curl -sSL https://getclient.dtk.io | bash -s <DTK_CONFIG_DIRECTORY>
 {% endhighlight %}
 
-In this example, assuming that dtk.config is located in /dtk that is:
+In this example, assuming that `dtk.config` is located in same dtk-server directory that is:
 {% highlight bash linenos %}
-\curl -sSL https://getclient.dtk.io | bash -s /dtk/
+\curl -sSL https://getclient.dtk.io | bash -s /home/ubuntu/dtk-server/
 This script will do the following:
 
 * Install the dtk-client gem
-* Genereate an SSH keypair for the selected user (if it does not exist)
+* Genereate an SSH keypair for the user the script is run under (if one does not exist)
 * Genereate dtk-client configuration files
 
 Installing dtk-client gem
 1 gem installed
 {% endhighlight %}
 
-Dtk client also has its own ~/dtk directory which will be generated on your home directory and it contains generated client configuration. You are now able to login using Dtk client for the first time and connect to your Dtk Server instance:
+The Dtk Client will generate on first run its own ~/dtk directory which will be generated on your users home directory and it contains the generated client configuration. You are now able to login using Dtk client for the first time and connect to your Dtk Server instance.  Run `dtk` to setup initial Config and verify connectivity(answer 'no' for Dtk Catalog credentials for now, we will set those later):
 
 {% highlight bash linenos %}
 ~$ dtk
 [INFO] Processing ...
-Do you have DTK catalog credentials? (yes|no)
+Do you have Dtk Catalog credentials? (yes|no)
 no
 [INFO] SSH key '...' added successfully!
 NAME
@@ -98,20 +111,23 @@ COMMANDS
     service - Subcommands for creating and interacting with DTK service instances
 {% endhighlight %}
 
-## Target setup
-Now that you have Dtk up and running, first thing you need to do is to create target. You can think of a target as initial VPC (Virtual Private Cloud) infrastructure that needs to be set on AWS so user would be able to use Dtk to provision new instances on AWS. In order to create target, you need to have VPC already created on AWS. For more information on how to create VPC, check: <a href="http://docs.aws.amazon.com/AmazonVPC/latest/GettingStartedGuide/getting-started-create-vpc.html" target="_blank">getting-started-create-vpc</a>
+You now have the Server and Client up and running and are ready to start using your new Dtk setup
 
-To be able to configure and deploy anything via Dtk, we need to install modules. Modules are installed on Dtk server and cloned on local filesystem where Dtk client resides. Now is a good time to create special directory where installed modules will be cloned
+## Initial Target setup
+Now that you have Dtk up and running, first thing you need to do is to create an initial Target to deploy your Services into.  For this Quickstart have your VPC and IAM credentials handy from the Prerequisities section at the top of the page.
+
+The Dtk Client will use local storage to manage working copies of Dtk Modules for you as you do your work.  Most of the time you will want to organize your Modules in some directory structure that makes most sense to you.  For this Quickstart we will use a `modules` directory and put Target related Modules under the `modules/target` sub-directory.
 
 {% highlight bash linenos %}
 ~$ mkdir modules
+~$ cd modules
+~/modules$ mkdir target
+~/modules$ cd target
 {% endhighlight %}
 
-Next thing to do is to install target related module:
+Lets install the Quickstart Module to create your first Target:
 
 {% highlight bash linenos %}
-~$ mkdir modules/target
-~$ cd modules/target
 ~/modules/target$ dtk module install -v 1.0.0 aws/network
 [INFO] Auto-importing dependencies
 Importing module 'aws:ec2' ... [INFO] Done.
