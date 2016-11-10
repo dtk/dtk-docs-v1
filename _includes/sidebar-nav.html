@@ -31,16 +31,16 @@
         </ul>
     </li>
     <li>
-        <a href="{{ site.siteBaseDir }}/modules">Modules</a>
+        <a href="{{ site.siteBaseDir }}/components">Components</a>
         <ul class="nav nav-stacked" >
-            {% assign module_pages = site.modules | sort:"order" %}
-            {% for mp in module_pages %}
-                <li><a href="{{ site.siteBaseDir }}{{ mp.url }}">{{ mp.title }}</a></li>
+            {% assign component_pages = site.components | sort:"order" %}
+            {% for cp in component_pages %}
+                <li><a href="{{ site.siteBaseDir }}{{ tp.url }}">{{ cp.title }}</a></li>
             {% endfor %}
         </ul>
     </li>
     <li>
-        <a href="{{ site.siteBaseDir }}/targets">Targets</a>
+        <a href="{{ site.siteBaseDir }}/targets">Assemblies & Targets</a>
         <ul class="nav nav-stacked" >
             {% assign target_pages = site.targets | sort:"order" %}
             {% for tp in target_pages %}
@@ -49,11 +49,11 @@
         </ul>
     </li>
     <li>
-        <a href="{{ site.siteBaseDir }}/components">Components</a>
+        <a href="{{ site.siteBaseDir }}/modules">Modules</a>
         <ul class="nav nav-stacked" >
-            {% assign component_pages = site.components | sort:"order" %}
-            {% for cp in component_pages %}
-                <li><a href="{{ site.siteBaseDir }}{{ tp.url }}">{{ cp.title }}</a></li>
+            {% assign module_pages = site.modules | sort:"order" %}
+            {% for mp in module_pages %}
+                <li><a href="{{ site.siteBaseDir }}{{ mp.url }}">{{ mp.title }}</a></li>
             {% endfor %}
         </ul>
     </li>
