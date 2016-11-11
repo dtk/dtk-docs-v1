@@ -49,7 +49,21 @@ There are two main Dtk workflows, each having their own variations:
 * A workflow for a Dtk user that is using already built templates to deploy his or her application or service stack
 These two workflows can also be intermixed, for example in developing the deployment templates, the user would want to test the logic by spinning up the templates under construction. In section (???ref) we show how the Dtk provides sandboxes to test these changes
 
-## Dtk development workflow
+## Dtk development user workflow
 
-## Dtk deployment workflow
+Diagram (?diagram ref) depicts the workflow for a user that is creating deployment templates and introduces some base termniology.
 
+**Modules** are how the Dtk constructthat handles dependency management and allows developers to bundle up what we refered to as 'deployment templates' in the introudction. They are analogous to Linux packages, npm modules in nodejs or gems in Ruby. They are the basic unit that get versioned. Dtk modules can have depedencies on other modules. The Dtk user interacts with modules in the form of directories that can have arbitrary nested structure that get loaded on the client machine. They can include the configuration assets being wrapped (e.g., bash scripts, Docker files with their supporting directories, Puppet manifests, etc) as well as code consititing an application to be deployed by Dtk actions. Each module has a top level DSL file encoded in yaml that can be broken into multiple files or kept as a single file. The base Dtk concepts that DSL encodes are
+* **components** - ..
+* **nodes** - ..
+* **assemblies** - ..
+* **actions** - ..
+* **workflows** - ..   
+
+
+### Rich TODO: show diagram that captures the relationship between these components and development workflow
+
+
+## Dtk deployment user workflow
+
+### Rich TODO: introduce depeloyment terminolog: 'targets' and service isntances' and show deployment workflow
