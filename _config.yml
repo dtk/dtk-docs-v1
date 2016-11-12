@@ -61,6 +61,9 @@ collections:
   targets:
     output: true
     permalink: /targets/:path.html
+  assemblies:
+    output: true
+    permalink: /assemblies/:path.html
   components:
     output: true
     permalink: /components/:path.html

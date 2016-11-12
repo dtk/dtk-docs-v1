@@ -40,7 +40,16 @@
         </ul>
     </li>
     <li>
-        <a href="{{ site.siteBaseDir }}/targets">Assemblies & Targets</a>
+        <a href="{{ site.siteBaseDir }}/assemblies">Assemblies</a>
+        <ul class="nav nav-stacked" >
+            {% assign assembly_pages = site.assemblies | sort:"order" %}
+            {% for tp in assembly_pages %}
+                <li><a href="{{ site.siteBaseDir }}{{ tp.url }}">{{ tp.title }}</a></li>
+            {% endfor %}
+        </ul>
+    </li>
+    <li>
+        <a href="{{ site.siteBaseDir }}/targets">Service Instances & Targets</a>
         <ul class="nav nav-stacked" >
             {% assign target_pages = site.targets | sort:"order" %}
             {% for tp in target_pages %}
