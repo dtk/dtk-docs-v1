@@ -5,9 +5,15 @@ permalink: assemblies/index
 
 ## Dtk Assemblies
 
-Dtk modules handle dependency management and are the base units that get versioned. They allow Dtk users to bundle up related configuration and deployment logic into a manageable unit. They also can contain the code being deployed as well as assets like Dockerfiles with their supporting directories. This serves to closely connect deployment logic and management scripts with the actual code getting deployed and managed.
+A Dtk assembly encodes the desired state to achieve when deploying a single component or a set of interrelated components making up possibly a complex distributed application or service. A Dtk module can contain one or more assemblies, which are sometimes referred to as 'assembly templates' because they serve as reusable deployment templates, each of which can be deployed multiple times in different environments. 
 
-Dtk Modules are analogous to npm modules in nodejs or gems in ruby with one major difference in that each module can include code and configuration logic of any or mixed types, such as ruby, python, nodejs, bash scripts, puppet manifests, etc.  For instance, you can take your ruby app, add some rake tasks as well as config management scripts to allow people to deploy and manage your app. 
+When an assembly template is 'staged'  -- meaning instantiated, but not yet deployed    -- a dedicated service instance is created having an instantiated version of the assembly template, which we will sometimes refer to as an 'assembly instance'.  In section (?ref) we detail the difference between an assembly template and assembly instance. They both have the same DSL syntax; the main difference is that an assembly instance can have more detail than its parent template. This added detail is automatically and/or manually filled in that provides deployment-specific parameters and deployment-specific connections to other components in the selected deployment environment. Additionally the instance can have automatically generated workflows.
 
-To handle this multi-language environment the modules contain simple "wrapper" DSL, which provides something akin to an object oriented interface that hides the implementation details of the actual code, script, manifests, etc.  This enables the Dtk to expose deployment and management workflows in a language agnostic way that hide the fact that the actual code behind the implementation can vary from step to step.
+## Base assembly constructs
+
+Associated with an assembly can be zero or more 'workflows' ...
+
+The internals of an assembly has ... components, nodes etc
+
+Todo: next start going over sections with DSL snippets
 
