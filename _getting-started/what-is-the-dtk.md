@@ -35,11 +35,14 @@ The DevOps Toolkit (Dtk) is a an automated deployment and configuration system f
     </div>
 </div>
 
-### Layered Service Approach
+### "Composable service" capability
 
-The Dtk takes an opinionated "Service Layer" approach to any Infrastructure and Service that is deployed and managed from it.  Much like how the Dtk's Component model provides faciliates re-use and sharing at the asset/resource level, its Service Layer approach provides a similar re-use model via its Assembly model for complex Applications and Services.  The general idea is that any Layer once implemented is re-usable and portable in other variations and infrastructure environements requiring zero change.  
+The Dtk provides a "Composable Service" capability to deployment.  Much like how the Dtk's Component model facilitates re-use and sharing at the asset/resource level, the Dtk provides a similar re-use model at the service layer via its 'Assembly model'. Rather than requiring a complex application or service to be modeled and managed as a single unit, a user can also model in terms of composable lower-level services. This allows a user to break into re-usable and portable pieces the various layers and aspects of an end-to-end deployment, such as network and storage, cluster or container scheduler, monitoring infrastructure, and the applications themselves.
 
-An example is achieving portability across vSphere, Azure, and AWS with being able to deploy/move a Service with zero or minimal modification between service providers offering base resources such as networking, storage, and node/container deployment.  As Layers are designed and implemented the Dtk provides deployment Workflows and can carry out Actions that can span, coordinate and order all these layers without putting constraints on your implementations.
+While lower level sevices can be hierachically composed to form a wide spanning assembly, the DTk also provides the ability to use a 'layered service' approach which facilitates portability. An example is achieving portability across AWS, vSphere, Azure, Google, etc base services. A Dtk assembly for each service provider can be constructed. To enable deployment to any or a combination these targets, the user would first deploy one or more of these base provider assemblies. Application assemblies that are agnostic to service provider then can be automatically bound to a chosen service provider. This is achieved by using the Dtk's unique capability to deploy an assembly with respect to another previously deployed assembly that serves as the deployment context.
+
+As Layers are designed and implemented the Dtk provides deployment Workflows and can carry out Actions that can span, coordinate and order all these layers without putting constraints on your implementations.
+
 
 ### Flexible & Extensible Workflow and Actions
 
