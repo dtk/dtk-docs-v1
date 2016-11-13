@@ -22,14 +22,14 @@ The DevOps Toolkit (Dtk) is a an automated deployment and configuration system f
 
 ***This approach facilitates predictable and repeatable deployments.
 
-## Asset Re-Use & Continual Improvement 
+### Asset Re-Use & Continual Improvement 
 
 <div class="container" style="width:100%">
-    <div class="row">
-        <div class="col-md-3" style="text-align: center;">
+    <div class="row" style="">
+        <div class="col-md-3" style="text-align: center; vertical-align: middle;">
             <img src="{{ site.url }}/assets/img/reuse-asset-icon-01.png" style="margin: 20px auto;"/>
         </div>
-        <div class="col-md-9" style="vertical-align: middle;">
+        <div class="col-md-9" style="vertical-align: middle; line-height: 10px;">
             A primary design goal of the Dtk is to not re-invent the wheel & leverage existing IT/developer assets.  Many solutions promise great features for automation and deployment only to have you learn custom languages and rewrite your code to fit into their platforms.  The Dtk fosters and promotes a continual improvement mindset and can re-use ANY asset such as bash/ruby/python/etc scripts, Puppet modules, and containers to name a few.  Leveraging a simple "wrapper" DSL encoded in yaml, the Dtk's Component model provides something akin to an object oriented interface that hides the implementation details of the actual code, script, manifests, etc.  Once your existing assets are "Dtk Enabled" it becomes easy to improve your assets and IT processes while promoting sharing and collaboration across your teams.
         </div>
     </div>
