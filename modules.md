@@ -9,14 +9,16 @@ permalink: modules/index
 
 Dtk modules handle dependency management and are the base units that get versioned. They allow Dtk users to bundle up related configuration and deployment logic into a manageable unit. They also can contain the code being deployed as well as assets like Dockerfiles with their supporting directories. This serves to closely connect deployment logic and management scripts with the actual code getting deployed and managed.
 
-Dtk Modules are analogous to npm modules in nodejs or gems in ruby with one major difference in that each module can include code and configuration logic of any or mixed types, such as ruby, python, nodejs, bash scripts, puppet manifests, etc.  
-For instance, you can take your ruby app, add some rake tasks as well as config management scripts to allow people to deploy and manage your app. 
+Dtk Modules are analogous to npm modules in nodejs or gems in ruby with one major difference in that each module can include code and configuration logic of any or mixed types, such as ruby, python, nodejs, bash scripts, puppet manifests, etc.  For instance, you can take your ruby app, add some rake tasks as well as config management scripts to allow people to deploy and manage your app. 
 
 To handle this multi-language environment the modules contain simple "wrapper" DSL, which provides something akin to an object oriented interface that hides the implementation details of the actual code, script, manifests, etc.  This enables the Dtk to expose deployment and management workflows in a language agnostic way that hide the fact that the actual code behind the implementation can vary from step to step.
 
 ## Module structure
 
-The Dtk user interacts with modules in the form of directories that can have arbitrary nested structure that get loaded on the client machine. They can include the configuration assets being wrapped (e.g., bash scripts, Docker files with their supporting directories, Puppet manifests, etc) as well as code consititing an application to be deployed by Dtk actions. Each module has a top level DSL file encoded in yaml that can be broken into multiple files or kept as a single file. The top level Dtk concepts that DSL encodes are
+The Dtk user interacts with modules in the form of directories that can have arbitrary nested structure that get loaded on the client machine. Each module has a top level DSL file 'dtk.module.yaml' encoded in yaml that can be broken into multiple files or kept as a single file. Along with the DSL file(s), the module directoy contains the code, script, manifests etc that implement the configuration and management functions and optionally the code being deployed. The Dtk modules allow the code and scripts to be placed anywhere in the directory structure which enables the process of being able to take an existing git project and "Dtk enabling it" by adding Dtk files and leaving the git project unchanged except for these additions.
+
+## Top level Dtk module constructs
+The top level Dtk concepts that DSL encodes are
 * **components** - ..
 * **assemblies** - ..
 * **workflows** - ..   
