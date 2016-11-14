@@ -1,9 +1,9 @@
 ---
-title: 5 Minute Quickstart
+title: Quickstart
 order: 20
 ---
 
-# Dtk 5 Minute Quickstart
+# Dtk Quickstart
 
 ## Prerequisities
 In order to start using Dtk via the quickstart method, there are following prerequisities:
@@ -15,7 +15,7 @@ In order to start using Dtk via the quickstart method, there are following prere
 
 
 
-## Quickstart Install
+## Installation
 
 ### Installing the Dtk Server
 
