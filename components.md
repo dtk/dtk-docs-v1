@@ -5,7 +5,7 @@ permalink: components/index
 
 # Dtk Components
 
-Dtk components are the base building blocks that are composed to form logic to deploy, configure and manage applications and services. A component can refer to anything that can be deployed, managed, or discovered in a cloud or internal data center. Some typical things components refer to are
+Dtk components are the base building blocks that are composed to form logic to deploy, configure and manage applications and services. A component can refer to anything that can be deployed, managed, or discovered in a cloud or internal data center. Some typical things components can refer to are
 
 * A package that gets installed on a node and then configured and services started/stopped if applicable
 * A resource in a cloud service, such as a vpc subnet, kinesis stream or lambda function for AWS
