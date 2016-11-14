@@ -20,7 +20,7 @@ email: docs-feedback@dtk.io
 description: > # this means to ignore newlines until "baseurl:"
   Some description here
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "http://dtk.io:4000" # the base hostname & protocol for your site
+url: "http://dtk.io" # the base hostname & protocol for your site
 twitter_username: dtk_io
 github_username:  dtk
 
@@ -52,12 +52,18 @@ collections:
   api:
     output: true
     permalink: /api/:path.html
+  links:
+    output: true
+    permalink: /links/:path.html
   how-to:
     output: true
     permalink: /api/:path.html
   targets:
     output: true
     permalink: /targets/:path.html
+  assemblies:
+    output: true
+    permalink: /assemblies/:path.html
   components:
     output: true
     permalink: /components/:path.html
