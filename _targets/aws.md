@@ -18,7 +18,7 @@ Importing module 'aws:network_aws' ... [INFO] Done.
 [INFO] Successfully imported 'aws:network' version 1.0.0
 {% endhighlight %}
 
-This module contains two assembly templates: target and target_iam. If you want to create target using AWS credentials, then you can use target assembly template. If your DTK server is running on EC2 machine that has IAM role associated and that IAM role has access to VPC and EC2, you can use target_iam assembly template.
+This module contains two assembly templates: target and target_iam. If you want to create target using AWS credentials, then you can use target assembly template. If your DTK server is running on EC2 machine that has IAM role associated with name "dtk-root" and that IAM role has access to VPC and EC2, you can use target_iam assembly template.
 
 You can see list of available assemblies for aws/network module using following command:
 
@@ -33,7 +33,7 @@ You can see list of available assemblies for aws/network module using following 
 2 rows in set
 {% endhighlight %}
 
-When creating target, we are actually configuring VPC resources that will be used by service instances that will be provisioned via DTK using this target. aws/network module contains several components that aare used for configuring various VPC areas:
+When creating target, we are actually configuring VPC resources that will be used by service instances provisioned via DTK. aws/network module contains several components that are used for configuring various VPC areas:
 
 ### Subnet: 
 This component gives ability to either create new or specify existing subnet id (if we have subnet already created on VPC)
@@ -88,7 +88,7 @@ network_aws::vpc[vpc1]/default_keypair : <DEFAULT_KEYPAIR>
 Is provided information ok? (yes|no) yes
 {% endhighlight %}
 
-There are couple of possible scenarios we support when creating target in your VPC:
+There are couple of possible scenarios that are supported when creating target in your VPC:
 
 Note: VPC needs to exist on AWS in any of provided scenarios
 
@@ -98,7 +98,7 @@ This is scenario where no further configuration is needed. To create new target 
 {% highlight bash linenos %}
 ~/dtk/service/network-target$ dtk service converge
 {% endhighlight %}
-In this scenario, target will pick VPC data from the actual host where DTK Server is running so no additional configuration is needed. To check data VPC related data retrieved after converge of target is completed, we can use list-attributes command:
+In this scenario, target will pick VPC data from the actual host where DTK Server is running so no additional configuration is needed. To check VPC related data retrieved after converge of target is completed, we can use list-attributes command:
 
 {% highlight bash linenos %}
 ~/dtk/service/network-target$ dtk service list-attributes
@@ -132,7 +132,7 @@ In this scenario, target will pick VPC data from the actual host where DTK Serve
 
 ### Scenario 2: Create target when VPC, subnet length and security group name are specified
 
-This is scenario where user wants to customize target that will be created. User will VPC ID, subnet length for subnet cidr block that will be generated automatically and assigned to newly created subnet and security group name for security group that will be created. Setup and converge could be done in following way:
+This is scenario where user wants to customize target that will be created. User will specify VPC ID, subnet length for subnet cidr block that will be generated automatically and assigned to newly created subnet and security group name for security group that will be created. Setup and converge could be done in following way:
 {% highlight bash linenos %}
 ~/dtk/service/network-target$ dtk service list-attributes
 +------------+------------------------------------------------------------------+---------------------------------------------------+---------+
@@ -276,10 +276,10 @@ Take a look at following attributes:
 - network_aws::vpc_subnet[vpc1-default]/subnet_id - id from existing subnet
 - network_aws::security_group[vpc1-default]/group_id - id from existing security group
 
-Note: Enhancement needed for this scenario so we are able to: 
+Note: Enhancements are needed for this scenario so we are able to: 
 1. reset default group_name to security group name that corresponds to provided group_id
 2. set subnet_cidr_block and subnet_length based on provided subnet_id
-In nutshell, state of the attributes should be always the same (populated) after converge, regardless of scenario used
+In nutshell, state of the attributes should always be the same (populated) after converge, regardless of scenario used
 
 ### Scenario 4: Create target when VPC specified but user specifies subnet cidr block for subnet that needs to be created
 
