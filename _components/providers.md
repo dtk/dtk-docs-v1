@@ -1,9 +1,9 @@
 ---
-title: Component Providers
+title: Language Providers
 order: 30
 ---
 
-# Component Providers
+# Component Language Providers
 
 
 
