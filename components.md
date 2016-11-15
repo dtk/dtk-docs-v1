@@ -12,7 +12,7 @@ Components are the basic Dtk building blocks that are composed to provide the ca
 * Tasks that get run on clusters or run as chron jobs
 * A reference dataset (e.g., in S3) that is being accessed or copied
 
-A Dtk Component consists of the scripts, code, configuration logic (e.g. puppet class or definition) that perform the needed deployment, configuration, discovery, or management actions and a Dtk DSL description that serves as a language-neutral interface for the code or scripts. A component's DSL description specifies
+A Dtk Component consists of the bash scripts, code, or configuration logic (e.g. puppet class or definition) that perform the needed deployment, configuration, discovery, or management actions and a Dtk DSL description that serves as a language-neutral interface that wraps the code or scripts. A component's DSL description specifies
 * Attributes - which are set to capture the desired, configured, or actual state of the component
 * Dependencies - which capture relationships like an app component is required to be connected to a database server and how the app and database server attributes should be synchronized to for example make sure the application can listen on the appropriate host address and port to reach the db server
 * Actions - which are Dtk language neutral terms that get bound to the code and scripts
