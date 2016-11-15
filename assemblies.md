@@ -3,9 +3,20 @@ title: Dtk Assemblies
 permalink: assemblies/index
 ---
 
-A Dtk assembly encodes the desired state to achieve when deploying a single component or a set of interrelated components making up possibly a complex distributed application or service. 
+# Dtk Assemblies
 
-An assembly captures the set of components that constitute a deployment. For each component it captures where it is deployed, the high level alternatives being components that correspond to resources on an Internet service and components that get installed on nodes. When a component is deployed on a node there are two variants:
+A Dtk Assembly represents  a set of interrelated components that constitute an application, service or infrastructure to deploy or manage. This can be a simple single node applications or be distributed across nodes or Internet services.
+
+An Assembly captures whether each component is deployed on an Internet service or on a single or set of nodes, which could be cloud instances, virtual or physical machines.
+
+A sample Assemble with components corresponding to cloud service resources is shown below 
+
+This refers to an AWS vpc
+
+A sample assembly with components on nodes is shown below that 
+
+
+When a component is deployed on a node there are two variants:
 * A component that goes on a single node
 * A component that may be horizontally scaled where the same component configuration should go on a set of equivalent type nodes that can be scaled up and down. These are referred to as ‘Node Groups’
 
