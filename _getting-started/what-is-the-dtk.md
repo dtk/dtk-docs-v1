@@ -54,11 +54,12 @@ The DevOps Toolkit (Dtk) is a an automated deployment and configuration system f
 
 If you have said things like this to yourself:
 
-  * I wish I had a single deployment and automation tool that works across physical, virtual, container and serverless infrastructures 
+  * I wish I had a deployment and automation tool that works across physical, virtual, container and serverless infrastructures 
   * I wish our processes for testing infrastructure and services was better and repeatable across environments
   * I really like tool XYZ but it assumes its managing ALL my infrastructure and I dont want it to trash things by accident
   * I wish ops could provide built in monitoring to make my testing and debugging easier in non-production environments
   * Tool ABC is handy but I wish it didnt have such a rigid pre-defined workflow
+  * My environment has a variety of configuration and deployment technologies, but they are siloed, and I want them better integrated
   * Why do I have to copy/paste and hand edit things so often whenever I want a slight variation or move to a new environment
 
 Then you will find the Dtk quite usefull in your day to day development and operations efforts.  To learn more you can start reading about how the Dtk object model works, or if you like to experiment you can jump right into the Quickstart Guide.
