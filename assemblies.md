@@ -3,69 +3,31 @@ title: Dtk Assemblies
 permalink: assemblies/index
 ---
 
-## Dtk Assemblies
-
 A Dtk assembly encodes the desired state to achieve when deploying a single component or a set of interrelated components making up possibly a complex distributed application or service. 
+
+An assembly captures the set of components that constitute a deployment. For each component it captures where it is deployed, the high level alternatives being components that correspond to resources on an Internet service and components that get installed on nodes. When a component is deployed on a node there are two variants:
+* A component that goes on a single node
+* A component that may be horizontally scaled where the same component configuration should go on a set of equivalent type nodes that can be scaled up and down. These are referred to as ‘Node Groups’
 
 TODO: give some examples of assemblies.
 
-An assemebly is written in the Dtk DSL that has syntax to capture
-* Assembly structure - the set of components that make up the deployment and where each component is deployed, the choices being on an Internet service or nodes that can be cloud instances, a virtual or physical machines.
-* Deployment-specific settings - which refer to attribute settings that override the defaults and links between components in the assembly as well as links to components in other deployed assemblies providing needed services or context 
-* Workflows - which are used to create and destroy the deployment captured by the assembly and perform any assembly-specfic actions that the Dtk assembly author provided
+
+A typical deployment can have both Nodes and Node Groups, an example being a Spark cluster with a ‘Spark master’ Component running on a Node, and a set of its slaves that in teh DTK DSL would be tied to a Node Group that can be scaled up or down
 
 
-### Dtk Assembly DSL
+## Components, Nodes, and Node Groups
 
-The top level DSL structure for an assembly is given by
+An example of components that are deployed on Internet services are ones that correspond to an AWS VPC
 
-{% highlight bash linenos %}
-components:
-  <component_ref>
-       .
-       .
-  <component_ref>
-nodes:
-  <node_with_component_refs>
-      .
-      .
-  <node_with_component_refs>      
-workflows:
-   <workflow>
-      .
-      .
-   <workflow>
+TODO: ...
 
------
-where <component_ref> has form
-  <component_name>
-  -- OR --
-  <component_name>:
-    attributes:
-      <attribute_setting>
-           .
-           .
-      <attribute_setting>
-    component_links:
-      <component_link>
-           .
-           .
-      <component_link>
+### Nodes
 
-and <node_with_component_refs> has form
-  <node_or_node_group_name>:
-    attributes:
-      <node_attribute_setting>
-            .
-            .
-      <node_attribute_setting>
-    components:
-      <component_ref>
-            .
-            .
-      <component_ref>
-{% endhighlight %}
+# TODO: mention the attributes size and image
 
-The Assembly subsections go into detail on each of these DSL parts
+### Node Groups
 
+Mention set cardinality as well as 
+
+### Attributes
 
