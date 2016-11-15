@@ -12,11 +12,14 @@ Components are the basic Dtk building blocks that are composed to provide the ca
 * Tasks that get run on clusters or run as chron jobs
 * A reference dataset (e.g., in S3) that is being accessed or copied
 
-A Dtk Component consists of the bash scripts, code, or configuration logic (e.g. puppet class or definition) that perform the needed deployment, configuration, discovery, or management actions and a Dtk DSL description that serves as a language-neutral interface that wraps the code or scripts. A component's DSL description specifies
+A Dtk Component consists of
 * Attributes - which capture the desired, configured, or actual state of the component
 * Dependencies - which capture relationships like an app component is required to be connected to a database server and how the app and database server attributes should be synchronized to for example make sure the application can listen on the appropriate host address and port to reach the db server
-* Actions - which are Dtk language neutral terms that get bound to the code and scripts
+* Actions - which are the bash scripts, code, or configuration logic (e.g. puppet class or definition) that perform the needed deployment, configuration, discovery, or management operations
 
-The relationship between a component's Dtk DSL description and the actual code and scripts is analagous to the Object Oriented interface/implementation distinction where a Component corresponds to a class, an Action to a method name, and an action's code/scripts to the object's implementation.
+The type of code or configuration language that can be used is extensible. Currently Bash, Puppet, and Ruby are supported. We refer to these as 'language providers'
 
-Open question: where should a high level view of a component's dsl be given that tie sthe attribute, action and dependency pieces together 
+## Dtk component DSL 
+Each component has a Dtk DSL description with high level form
+
+TODO: Provide a DSL skeleton that shows the possible sections; then the sub sections on attributes, actions and dependencies can just focus on specific snippets
