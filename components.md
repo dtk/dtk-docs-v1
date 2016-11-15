@@ -17,6 +17,6 @@ A Dtk Component consists of the bash scripts, code, or configuration logic (e.g.
 * Dependencies - which capture relationships like an app component is required to be connected to a database server and how the app and database server attributes should be synchronized to for example make sure the application can listen on the appropriate host address and port to reach the db server
 * Actions - which are Dtk language neutral terms that get bound to the code and scripts
 
-The relationship between a component's Dtk DSL description and the actual code and scripts is analagous to the Object Oriented interface/implementation distinction where a Component corresponds to a class, an Actions to a method name, and an action's code/scripts to the object's implementation.
+The relationship between a component's Dtk DSL description and the actual code and scripts is analagous to the Object Oriented interface/implementation distinction where a Component corresponds to a class, an Action to a method name, and an action's code/scripts to the object's implementation.
 
 Open question: where should a high level view of a component's dsl be given that tie sthe attribute, action and dependency pieces together 
