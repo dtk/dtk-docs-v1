@@ -15,7 +15,7 @@ An assemebly is written in the Dtk DSL that has syntax to capture
 * Workflows - which are used to create and destroy the deployment captured by the assembly and perform any assembly-specfic actions that the Dtk assembly author provided
 
 
-### Dtk Asembly DSL
+### Dtk Assembly DSL
 
 The top level DSL structure for an assembly is given by
 
@@ -26,11 +26,11 @@ components:
        .
   <component_ref>
 nodes:
-  <node_with_components_ref>
+  <node_with_component_refs>
       .
       .
-  <node_with_components_ref>      
-Workflows:
+  <node_with_component_refs>      
+workflows:
    <workflow>
       .
       .
@@ -43,7 +43,7 @@ where <component_ref> has form
   <component_name>:
     <attribute_settings_add_or_component_links>
 
-and <node_with_components_ref> has form
+and <node_with_component_refs> has form
   <node_or_node_group_name>:
     attributes:
       <node_attribute_setting>
