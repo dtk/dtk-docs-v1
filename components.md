@@ -5,10 +5,10 @@ permalink: components/index
 
 # Dtk Components
 
-Components are the basic Dtk building blocks that are composed to provide teh capability to deploy, configure and manage applications and services. Some typical things Components can refer to are:
-* Application code in the different forms, such as code that is installed, code submitted to a cluster or cloud service, or deployed as containers
-* A package that gets installed on a node and then configured and services started/stopped if applicable
-* A resource in a cloud service, such as a vpc subnet, RDS database or Lambda function for AWS
+Components are the basic Dtk building blocks that are composed to provide the capability to deploy, configure and manage applications and services. Some typical things Components can refer to are:
+* Application code deployed in the different forms, such as code that is installed, code submitted to a cluster or cloud service, or deployed as containers
+* Common infrastructure pieces installed on nodes, such as app servers, load balances, proxies, database servers and clients, cluster components like Spark masters and slaves
+* Resource in a cloud service, such as for AWS, vpc subnets, routing tables and security groups, RDS databases or Kinesis streams
 * A task that gets run on a cluster
 * A reference dataset (e.g., in S3) that is being accessed or copied
 
