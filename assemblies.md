@@ -41,7 +41,16 @@ where <component_ref> has form
   <component_name>
   -- OR --
   <component_name>:
-    <attribute_settings_add_or_component_links>
+    attributes:
+      <attribute_setting>
+           .
+           .
+      <attribute_setting>
+    component_links:
+      <component_link>
+           .
+           .
+      <component_link>
 
 and <node_with_component_refs> has form
   <node_or_node_group_name>:
