@@ -15,9 +15,9 @@ An example very simple Assembly is one that has an application on a single node:
           image: trusty_hvm
           size: small
         components:
-        - wordpress
-        - wordpress::instance_nginx
-        - wordpress::instance_php
+        - nginx::server
+        - wordpress::nginx_config
+        - wordpress::app
         - mysql::server
 {% endhighlight %} 
 

@@ -1,9 +1,13 @@
 ---
-title: Dependencies
+title: Component Links
 order: 20
 ---
 
-## Component dependencies
+## Dtk Component Links
+
+Go over the DSL dependency and link def section
+
+# TODO: olde text; see what can use
 
 A key feature of the Dtk is that a component can be given dependencies, such as one that says an app component requires a db component. By associating the dependencies with a reusable component, these dependencies get inherited by the environments in which they leave. This enables the Dtk to both raise violations when dependencies are missing as well as when possible to ‘auto complete’ dependencies, such as automatically binding a component to a database in an environment where it is deployed. This is a form of service discovery. In the Dtk DSL there are two constructs that pertain to component dependencies:
 * A dependency that says that a component requires another component ort a choice between components (e.g., an app may require a Postgresql, MySQL, Oracle database server)
