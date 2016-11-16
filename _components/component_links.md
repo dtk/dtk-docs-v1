@@ -55,6 +55,11 @@ This is an ETL-like specification that enables the Dtk user to capture when link
 
 TODO: give an example with ngix. There can be multiple components that connect to nginx,. Each one splices into an array in nginx thatmaintains the list of host address, ports etc that traffic is routed to
 
+
+### Handling fully meshed component connections
+
+TOOD: explain how we model things like quoroms
+
 ### Link Def without Dependency
  
 capture how two related Components Attributes should be coordinated. An example is a Link Def that captures that 'db_host' gets the host address  
