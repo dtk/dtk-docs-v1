@@ -40,12 +40,12 @@ Attributes can contain the following properties
 | Property      | Description                                                                   | Required  | Valid Values |
 |:-------------:|:------------------------------------------------------------------------------|:---------:| ------------ |
 | type          | Datatype of the Attribute                                                     |     X     | ('string', 'integer', 'boolean', 'hash', 'array’) | 
-| default       | Provides an Attribute's default value                                         |           | any          |
-| required      | If true, value must be set before executing any Action, 'false' by default    |           | true or false  |
-| description   | Text description of the attribute                                             |           | true or  false |
-| dynamic       | If 'true' sytem computes value (see [Dynamic Attributes](#dynamic-attributes) for more details), 'false' by default if omitted |           | true or false |
-| hidden        | If 'true' the Attributes value is hidden when displaying values in the Dtk, 'false' by default if omitted |           | true or false |
-| input         | (see [Dynamic Attributes](#dynamic-attributes) for more details) 'false' by default if omittied      |           | true or false |
+| default       | Provides an Attribute's default value                                         |           | depends on type |
+| required      | If true, value must be set before executing any Action, 'false' by default    |           | Boolean  |
+| description   | Text description of the attribute                                             |           | String |
+| dynamic       | If 'true' sytem computes value (see [Dynamic Attributes](#dynamic-attributes) for more details), 'false' by default if omitted |           | Boolean |
+| hidden        | If 'true' the Attributes value is hidden when displaying values in the Dtk, 'false' by default if omitted |           | Boolean |
+| input         | (see [Dynamic Attributes](#dynamic-attributes) for more details) 'false' by default if omittied      |           | Boolean |
 {: .table .table-bordered }
 
 ## <a name="dynamic-attributes"></a>Dynamic Attributes
