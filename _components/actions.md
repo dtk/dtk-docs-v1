@@ -5,19 +5,60 @@ order: 20
 
 # Component Actions
 
-Associated with each component are one of more Actions that can do things such as deployment, configuration, deleting resources, querying state, testing or performing maintance operations.  The Dtk DSL provides an interface in the Objected Oriented sense for each Component. An example of the DSL fragment capturing actions for a component. 
+Associated with each Dtk Component is one of more Actions that perform operations such as deployment, configuration, deleting resources, querying state, testing or performing maintenance. The Dtk DSL provides an interface in the Objected Oriented sense for the actual code or scripts, i.e., Puppet, Bash, Puppet). An example of a DSL fragment capturing Actions for a Component ‘hadoop::namenode’ is as follows:
+{% raw %}
+    attributes:
+      port:
+        type: port
+        dynamic: true
+      http_port:
+        type: port
+        dynamic: true
+      hdfs_daemon_user:
+        type: string
+        dynamic: true
+    actions:
+      create:
+        puppet_class: hadoop::namenode
+      smoke_test:
+        commands:
+        - RUN echo "namenode port={{port}}"
+        - RUN netstat -nltp | grep {{port}}
+        - RUN su {{hdfs_daemon_user}} -c "hdfs dfsadmin -safemode get" | grep OFF
+      leave_safemode:
+        command:
+          RUN su {{hdfs_daemon_user}} -c 'hdfs dfsadmin -safemode leave'
+{% endraw %}
 
-TODO: give examples
+In this example there are three types of actions. The Action ‘create’ when executed on a node installs the Hadoop Namenode daemon, configures it and starts the service. The action ‘smoketest’ is a test that would be run in a worflow after the create Action is done to make sure that the service is actually up. If its results indicate failure it will stop the workflow from processing. The third Action ‘leave_safemode’ is a maintenance operation applicable to Hadoop Namenodes.
 
-A Dtk user can invoke an action on a single component or invoke an assembly workflow that coordinates a set of actions, which can span multiple layers in a complex stack.  When an action is executed, the Dtk dispatches the action to either a selected node where the implementation code is run or runs the action's implementation code in a Dtk internal container. This latter case is used, for example, when the implementation code is calling rest services interacting with resources deployed on an Internet or networked service.
+Under each Action are fields that indicate the code or script that is doing the actual steps and related parameters. In this case the action ‘create’ is being implemented by Puppet and the actions ‘smoketest and ‘leave_safemode’ using Bash. The “Language Provider” types ‘puppet’ and ‘bash’ dont need to be specifically given since they can be inferred from the fields under Action.
 
-## Create actions
-Each Dtk component must have a 'create' action defined. The user has the flexibility to define a create action in different ways such as
+The typical pattern for actions is shown by
+{% highlight bash linenos %}
+    create:
+        puppet_class: hadoop::namenode
+{% endhighlight %} 
+
+In this case the assignment ‘puppet_class: hadoop::namenode’ indicates the top level Puppet Class to call when action ‘create’ is calle. For Puppet, the other alternative is identifying a top level Puppet Definition to call. Behind these top level Puppet Class or definition is a full Puppet module that can be arbitrarily nested. These top level Classes and Definitions will typically call Puppet Classes, Definitions, Resources, and Functions that would be in the nested in the module
+
+The Bash Actions are atypical in that the DSL itself has the code inline to the DSL, ‘i.e., Bash commands to run
+
+The subsection ‘Language Providers’ describes the currently supported languages that the Action Implementations can be written in (Bash, Puppet, and Ruby) as well as how the set of Language providers can be extended
+
+### Action Invocation Parameters
+
+When any action is executed it has access to all the attributes that are set on the Component as input much the same way in Object Oriented languages method calls have access to an object's state variables. The mechanism to map between Dtk attributes differs from Language Provide to Language Provider. For Puppet the convention is used that the Dtk Attribute names correspond one to one with the names used in the signatire for corresponding top level Puppet Classes and Definitions.
+
+For Bash Language provider Dtk attributes are passed in through use of Mustache template variables.
+
+### Create (Converge) actions
+Each Dtk component must have a 'create' Action defined. The user has the flexibility to define a Create action in different ways such as
 * an action that creates a new resource
 * an action that discovers an existing resource
 * an action that just 'stages' the component that then can be actually deployed by following up with another action on the component that does the actual deployment
 
-A typical pattern is to have the create action encode 'idempotent’ semantics, meaning that once created, the create action can be run again after changing the component's attributes. This subsequent create call will try to bring the actual resource to the desired state reflected in the attribute settings. Consequently, we will sometimes refer to the create action as a 'converge' action since it tries to "converge to a state". The Dtk user has flexibility to define the create action so it only works when creating the resource from scratch or only works for certain attribute changes, raising errors if changes are made that are not supported,
+A typical pattern is to have the create action encode ‘idempotent’ semantics, meaning that once created, the create action can be run again after changing the component’s attributes. This subsequent create call will try to bring the actual resource to the desired state reflected in the attribute settings. Consequently, we will sometimes refer to the create Action as a ‘converge’ Action since it tries to “converge to a state”. The Dtk user has flexibility to define the create Action so it only works when creating the resource from scratch or only works for certain attribute changes, raising errors if changes are made that are not supported.
 
 ## Delete Actions
 
@@ -30,16 +71,16 @@ The Dtk user has flexibility to also define other types of actions to things suc
 * action that performs a test and returns the results, such as use of smoke tests interspersed in a workflow that can abort execution upon failure
 * actions that copy or backup datasets
 
-TODO: start to introduce snippets
+TODO: add more detail
 
+### Mechanism for Action Implementations to pass back attribute values
 
+TODO: explain the general pattern taht is used in each Langigae provider that enables teh code to pass values back to the Dtk
 
-----
+### Action with method parameters
 
-stuff tio work in
+TODO: explain: Much in the same way that in an Object Oriented language instance methods can use explicit parameters passed in the method call as well as the object's state variables, the same can be done with Dtk. However, it is encouraged that Component Attributes be used when they can for a number of reasons.... Explicit methods are useful to indicate how the action is performed in contrast to what they should do.
 
-When any action is executed it has access to all the attributes that are set on the component as input much the same way in OO languages method calls have access to an objects state variables. A Dtk action can also set component attributes after execution. This is the mechanism that the Dtk uses for discovery. As an example a workflow can first have a AWS vpc component that discovers the relevant AWS vpc id, which can be feed to a subsequently executed vpc subnet component that creates a vpc subnet and needs its parent’s id. 
+### Actions to handle more complex Attribute relationships
 
-
-
-
+TODO: give examples and explain that a special type of action can be used that is executed in a secure sandbox on the Dtk server and is used when one needs the power of a programming language (Ruby) to compute an attribute value in terms of other values
