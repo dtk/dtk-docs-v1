@@ -12,7 +12,7 @@ Components are the basic Dtk building blocks that are composed to provide the ca
 * A reference dataset (e.g., in S3) that is being accessed or copied
 
 A Dtk Component consists of bash scripts, code, or configuration logic (e.g. puppet class or definition) that perform the needed deployment, configuration, discovery, or management operations and DTK DSL description, which serves a similar role as an interface serves in Object Oriented languages.
-The type of code or configuration language that can be used is extensible. Currently Bash, Puppet, and Ruby are supported. We refer to the logic that supports a particular language or configuration asset as a 'Language Provider'. Example Language Providers that can be added are ones for python, nodejs, Chef, AWS CloudFormation,
+The type of code or configuration language that can be used is extensible. Currently Bash, Puppet, and Ruby are supported. We refer to the logic that supports a particular language or configuration asset as a 'Language Provider'. Example Language Providers that can be added are ones for python, nodejs, Chef, AWS CloudFormation, Docker Compose, Gradle, Serverspec, etc.
 
 An example Component Dtk DSL description for a component ‘wordpress::app’ 
 {% highlight bash linenos %}
