@@ -40,7 +40,9 @@ An example Component Dtk DSL description for a component ‘wordpress::app’
       mysql::server:
         attribute_mappings:
         - $node.host_address -> db_host
-        - $port -> $db_port
+        - $port -> db_port
 {% endhighlight %}
 
 TODO: give a few paragraph explanation of this example
+
+The sections 'dependencies' and 'link_defs' describe how 'wordpress::app' requires that the Component mysql::server be present (wince teh wordpress app needs a database) and captures how their attributes are coordinated so that wordpress::app has db_host and db_port set to point to the correct host address and port. The subsection 'Component Links' describes these relations in detail.
