@@ -5,7 +5,7 @@ order: 1
 
 # What is the Devops Toolkit (Dtk)
 <br/>
-The DevOps Toolkit (Dtk) is a an automated deployment and configuration system for both Services & infrastructure with a key focus on reuse, integration & collaboration.  The Dtk's state-based declarative way of treating Services and infrastructure is versioned and stored under a built in source controlled Service Catalog along side your applications that need to be deployed, configured and tested.
+The DevOps Toolkit (Dtk) is an automated deployment and configuration system for services, applications & infrastructure with a key focus on reuse, integration & collaboration.  The Dtk's state-based declarative way of treating Services and infrastructure is versioned and stored under a built in source controlled Service Catalog along side your applications that need to be deployed, configured and tested.
 
 <br/><br/>
 
@@ -16,7 +16,7 @@ The DevOps Toolkit (Dtk) is a an automated deployment and configuration system f
             <img src="{{ site.url }}/assets/img/reuse-asset-icon-03.png" style="margin: 20px auto;"/>
         </div>
         <div class="col-md-9" style="">
-            A primary design goal of the Dtk is to not re-invent the wheel & leverage existing IT/developer assets.  Many solutions promise great features for automation and deployment only to have you learn custom languages and rewrite your code to fit into their platforms.  The Dtk fosters and promotes a continual improvement mindset and can re-use ANY asset such as bash/ruby/python/etc scripts, Puppet modules, and containers to name a few.  Leveraging a simple wrapper DSL encoded in yaml, the Dtk's Component Model provides something akin to an object oriented interface that hides the implementation details of the actual code, script, manifests, etc.  Once your existing assets are "Dtk Enabled" it becomes easy to improve your assets and IT processes while promoting sharing and collaboration across your teams via your Dtk Service Catalog or share across the Dtk Network with others outside your org.
+            A primary design goal of the Dtk is to not re-invent the wheel & leverage existing IT/developer assets.  Many solutions promise great features for automation and deployment only to have you learn custom languages and rewrite your code to fit into their platforms.  The Dtk fosters and promotes a continual improvement mindset and can re-use ANY asset such as Bash/Ruby/Python/etc scripts, Puppet modules, and containers to name a few.  Leveraging a simple wrapper DSL encoded in yaml, the Dtk's Component Model provides something akin to an object oriented interface that hides the implementation details of the actual code, script, manifests, etc.  Once your existing assets are "Dtk Enabled" it becomes easy to improve your assets and IT processes while promoting sharing and collaboration across your teams via your Dtk Service Catalog or share across the Dtk Network with others outside your org.
         </div>
     </div>
 </div>

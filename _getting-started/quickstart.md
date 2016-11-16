@@ -57,7 +57,7 @@ You should have have your server up and running.  Next we will install the Dtk C
 
 ### Installing the Dtk Client
 
-Now we will install the Dtk Client.  For the Quickstart you can install Dtk Client on the same machine as the Server.  Typically you will install on a remote machine or on your local dev machine.  The Dtk Client can run on any machine that supports ruby and has IP connectivity to the Dtk Server defined at the **PUBLIC_ADDRESS** value in the `dtk.config` file.
+Now we will install the Dtk Client.  For the Quickstart you can install Dtk Client on the same machine as the Server.  Typically you will install on a remote machine or on your local dev machine.  The Dtk Client can run on any machine that supports Ruby and has IP connectivity to the Dtk Server defined at the **PUBLIC_ADDRESS** value in the `dtk.config` file.
 
 Create a Client install script configuration file called `dtk.config`.  You can use the same one if installing on the Server machine, else copy the credentials and PUBLIC_ADDRESS you set in the Server config and write to a local `dtk.config` file:
 {% highlight bash linenos %}

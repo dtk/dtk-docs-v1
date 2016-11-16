@@ -5,7 +5,7 @@ order: 20
 
 # Component Actions
 
-Associated with each component are set of actions for deploying, destroying, quertoing, testing or performing maintance operations on the component. 
+Associated with each component are one of more Actions that can do things such as deployment, configuration, deleting resources, querying state, testing or performing maintance operations.  The Dtk DSL provides an interface in the Objected Oriented sense for each Component. An example of the DSL fragment capturing actions for a component. 
 
 TODO: give examples
 
