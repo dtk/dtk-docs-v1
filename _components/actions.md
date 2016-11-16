@@ -6,6 +6,8 @@ order: 20
 # Component Actions
 
 Associated with each Dtk Component is one of more Actions that perform operations such as deployment, configuration, deleting resources, querying state, testing or performing maintenance. The Dtk DSL provides an interface in the Objected Oriented sense for the actual code or scripts, i.e., Puppet, Bash, Puppet). An example of a DSL fragment capturing Actions for a Component ‘hadoop::namenode’ is as follows:
+
+{% highlight bash linenos %}
 {% raw %}
     attributes:
       port:
@@ -29,6 +31,7 @@ Associated with each Dtk Component is one of more Actions that perform operation
         command:
           RUN su {{hdfs_daemon_user}} -c 'hdfs dfsadmin -safemode leave'
 {% endraw %}
+{% endhighlight %}
 
 In this example there are three types of actions. The Action ‘create’ when executed on a node installs the Hadoop Namenode daemon, configures it and starts the service. The action ‘smoketest’ is a test that would be run in a worflow after the create Action is done to make sure that the service is actually up. If its results indicate failure it will stop the workflow from processing. The third Action ‘leave_safemode’ is a maintenance operation applicable to Hadoop Namenodes.
 
