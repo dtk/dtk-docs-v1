@@ -1,5 +1,5 @@
 ---
-title: Component Links
+title: Links
 order: 20
 ---
 
