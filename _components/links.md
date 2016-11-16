@@ -7,7 +7,7 @@ order: 20
 
 When deploying and managing Service and Infrastructure Components it is common that they will need to share information with other Components in your deployment(s).  A simple example is where an application Component needs to know the host and port of the database Component in order to establish a connection.  Instead of having to enter Attribute values in multiple locations, or rewrite your Applications and Services to use a specific service discovery solution, the Dtk comes with a built in solution with its Links functionality.
 <br/><br/>
-Links allow you to be able to express associations between Dtk Components in a simple and concise format.  When defining a Component the user can capture Component linkages that then are applicable and can be re-used in any deployment that they are used in.  The **Link Def** syntax reflects an ETL-like specification to coordinate Attributes across related Components, much like foreign keys across tables in a database.   
+Links allow you to be able to express associations between Dtk Components in a simple and concise format.  The **Link Def** syntax reflects an ETL-like specification to coordinate Attributes across related Components, much like foreign keys across tables in a database.   
 
 Here is a reference example for our simple application to database linkage in the application component definition:
 {% highlight bash linenos %}
@@ -41,8 +41,11 @@ $port -> db_port
 {% endhighlight %}
 captures that the value set on mysql::server’s **port** Attribute is used to set the **db_port** Attribute on the application component.  Should the user choose to change the port on the mysql::server to a non standard port the new configuration value will be automatically propagated to application.
 
-In the example above we showed "uni-directional" passing of Attributes via the Link.  It is common the developer will require to pass Attributes between two linked Components in both directions, which would be reflected by using in the **attribute mapping** syntax the symbols ‘<-‘ instead of ‘->’ to denote the directional flow of the Attribute values when they are set/changed.  Later we will show more advanced examples with "bi-directional" Link Defs and multiple Component dependencies.
+In the example above we show a "uni-directional" passing of Attributes via the Link.  It is not uncommon the developer will require to pass Attributes between two linked Components in both directions, which would be reflected by using in the **attribute mapping** syntax the symbols ‘<-‘ instead of ‘->’ to denote the directional flow of the Attribute values when they are set/changed.  Later we will show more advanced examples with "bi-directional" Link Defs and multiple Component dependencies.
 <br/>
+
+Links are a powerfull part of the Dtk's ability to re-use your Components/resources in any deployment.  Once a Link Def has been capture and defined on a Component, the Component can be deployed **unchanged** in any Infrastructure environment (aws, azure, vsphere, etc) and topology and the Dtk will handle all the dependencies and Attribute propogation for you.  
+
 ## Dependencies
 
 The **dependencies** section in the above example captures that the application Component is dependent on the database ‘mysql::server’ Component being present.  Consequently, if the user tries to deploy the application without a mysql::server Component present and linked, then a violation is raised that blocks execution.  This dependency is defined to be applicable in a distributed application meaning that it just means that mysql::server Component must be in the Assembly, but not necessary on the same node as wordpress::app.
