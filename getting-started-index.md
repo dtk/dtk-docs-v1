@@ -7,4 +7,7 @@ next_page:
 
 # Getting Started with the Dtk
 
-landing index page here...
+For now start reading the docs at [What is the Dtk?]({{site.siteBaseDir}}/getting-started/what-is-the-dtk)
+
+TODO: flush out more of this getting started overview and how to direct the users learning experience
+
