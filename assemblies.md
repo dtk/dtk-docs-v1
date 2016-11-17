@@ -5,9 +5,69 @@ permalink: assemblies/index
 
 # Dtk Assemblies
 
-A Dtk Assembly represents a set of interrelated components that constitute an application, service or infrastructure to deploy or manage. This can be a simple single node application or be complex and distributed across nodes and/or multiple cloud services. An Assembly captures whether each component is deployed as a resource on a cloud service or installed on a single or set of nodes, which could be cloud instances, virtual machines, or physical machines.
-### Single node Assembly
-An example very simple Assembly is one that has an application on a single node:
+A Dtk Assembly represents a set of interrelated Dtk Components that constitute an application, service or infrastructure to deploy or manage. This can be a simple single node application or be complex and distributed across nodes that exist or are spun up and/or are across one or multiple cloud services. 
+A deployment can be organized as a single Assembly that deploys all layers of a stack together or instead could be designed using multiple Assemblies that are split and deployed in a layered way, such as
+1. Base Assembly, which we refer to as a Target Assembly that provisions or discovers a networking context in a selected cloud service
+2. Assembly that deploys a cluster on top of the Target
+3. Assembly that deploys an application or jobs that runs on the cluster
+
+To illustrate how the Dtk DSL encodes Assemblies, consider two Assemblies where we have
+* Target Assembly that corresponds to an AWS VPC in a specified AWS region, and
+* A wordpress Assembly that is deployed with respect to the VPC Target
+
+The syntax below shows how an Assembly representing an AWS VPC target could be specified:
+{% highlight bash linenos %}
+    components:
+    - network_aws::vpc[vpc1]:
+        attributes:
+          discovered: true
+          region: us-east-1
+          vpc_id: vpc-34abb450
+    - network_aws::security_group[vpc1-default]:
+        attributes:
+          discovered: true
+          group_id: sg-60d4be06
+    - network_aws::vpc_subnet[vpc1-default]:
+{% endhighlight %} 
+
+This Assembly refers to an AWS VPC, security group, and subnet that can serve as one of potentially multiple contexts for spinning up the nodes in a service Assembly. If an Assembly is spun up with respect to this Target Assembly then any nodes spun up will be connected to the designated subnet and security group.
+
+This example illustrates how the DTK can mix discovery and creation depending on what Components are used or what is their Attribute settings. In this example, the VPC and security group resources are discovered, while a VPC subnet will be created each time this Assembly is deployed. When an Assembly is deployed the create/converge Actions will appropriately perform discovery or resource creation. For discovered resources, an error can be raised if the resource does not exist or cannot be uniquely identified.
+
+The Components in this example have syntax
+{% raw %}
+  MODULE-NAME::COMPONENT-NAME[INSTANCE-NAME]
+{% endraw %}
+This identifies which Module each Component is from and the Component’s name. INSTANCE-NAME is used if a Component can have multiple instantiations in the same context, It is used here because there can be multiple VPCs, subnets and security groups in the same region. The Components can be designed so that the logical names, such as ‘vpc1-default’ match the names of an actual resource or are decoupled. The advantage of decoupling logical names with actual resource names for resources that are created is then the Assembly can be instantiated multiple times without causing name clashes.
+
+Below is an example Assembly for a wordpress application
+{% highlight bash linenos %}
+   nodes:
+      wordpress:
+        components:
+        - nginx::server
+        - wordpress::nginx_config
+        - wordpress::app
+        - mysql::server
+{% endhighlight %} 
+
+In contrast to the VPC Assembly where the Components referred to cloud resources, in this example the Components refer to things that can deployed on nodes, in this case a single node. If this assembly is deployed with respect to the above VPC Target then a single node will be spun up connecting to the subnet and security group tied to the VPC Target. On top this node, nginx, wordpress and mysql will be installed and configured to work together. This logic is captured by the create/converge actions defined in these Components.
+
+The node name ‘wordpress’ is the logical name used to refer to and connect to a spun up AWS EC2 instance. If this Assembly is spun up multiple times, each time it would create a new instance that can be referred to by ‘wordpress’. Each of this deployments provides a context that the Dtk user can navigate to. How ‘wordpress’ is resolved to an actual cloud insatnces differs depending on context user is in. This provides a form of multi-tenancy.
+
+In this example the Components have syntax
+{% raw %}
+  MODULE-NAME::COMPONENT-NAME
+{% endraw %}
+For these Components an Instance Name is not needed if there can only be one instantiation of the Component in a context, in this case the context being a node. We will sometimes refer to these type of Components as ‘Singletons’.
+
+### Specifying a Node's image and size
+
+In the example above there was no information given about the image associated with the wordpress node and its size. Attributes that capture these settings could be set in two ways:
+* After an instance of the Assembly is staged the user can enter these values prior to executing a workflow to deploy it
+* By using logical terms in the Service Assembly that get contingently and automatically bound depending on what Target the Assembly is staged respect to
+
+For the latter case, the wordpress Assembly could look like:
 {% highlight bash linenos %}
    nodes:
       wordpress:
@@ -21,50 +81,15 @@ An example very simple Assembly is one that has an application on a single node:
         - mysql::server
 {% endhighlight %} 
 
-This represents a wordpress application that gets spun up on an Ubuntu Trusty hvm image that is of size ‘small’. Exactly what these logical terms ‘trusty_hvm’ and ‘small’ get resolved to will be customized with respect to the Target Service Instance (i.e., deployment environment) that this Assembly is deployed with respect to. For example, the target environment can capture am AWS VPC in a set region. The term ‘trusty_hvm’ would bind to an ami in the target’s region that correspond to a Trusty Hvm OS. The size would also be customized depending on the target configuration, an example being‘t2.small’. 
+This shows a wordpress application that gets spun up on an Ubuntu Trusty hvm image that is of size ‘small’. If this Assembly was spun up with respect to the example VPC Target then ‘trusty_hvm’, would bind to a Trusty Hvm ami in the target’s region (us-east-1). It is also assumed that the VPC target includes a Component that is a dictionary that would map terms like ‘small’ to a concrete EC2 term such as ‘t2.small’. This mapping is customizable.
 
-The node name ‘wordpress’ is the logical name to refer to and connect to a spun up instance. The same Assembly can be instantiated multiple times, each time creating a new ‘Service Instance’ directory on the client machine. To manage a Service Instance, a user navigates to its directory and issues commands or edits the DSL file(s) under this directory. For Service Instances created from this example Assembly, references to the node name ‘wordpress’ get resolved to an actual cloud instance that would differ as user moved from Service Instance directory to directory
+TODO: show some details about the Component that serves as a dictionary
 
-In the Assembly above, there is set of Components that are under the Node ‘wordpresss’. This means when a DTK action to actually create/deploy the assembly is executed these components get installed and configured on that node and the corresponding service daemons started.
-
-Component references in this Assembly have form
-* COMPONENT-NAME, and
-* MODULE-NAME::COMPONENT-NAME
-
-which identify the Component’s name and Module it is from. When just COMPONENT-NAME is given this means the module name and component name are the same.
-
-
-### Assembly with Cloud Resource components
-The wordpress Assembly needs to be spun up with respect to a deployed context. This is also represented by an Assembly that is assumed to be deployed. One such context for the wordpress Assembly is an AWS VPC given by:
-
-{% highlight bash linenos %}
-    components:
-    - image_aws
-    - network_aws::vpc[vpc1]:
-        attributes:
-          region: us-east-1
-    - network_aws::vpc_subnet[vpc1-default]:
-    - network_aws::security_group[vpc1-default]:
-{% endhighlight %} 
-
-In this case, rather than the having Components under a Node the Components are top level meaning they refer to resources on a cloud service. An assembly can also have Components some of which refer to cloud resources and others to Components on Nodes.
-
-In the example above the Dtk Component ‘image_aws’ provides the bindings between logical names such as ‘trusty_hvm’ and ‘small’ and AWS EC2 amis (depending on region) and sizes such as ‘t2.size’. The vpc, vpc_subnet, and security group Components refer to the  AWS VPC respurces that provide the VPC context where the nodes are to be spun up. Dtk VPC Components can be defined to either discover or create VPC resources or do either depending on attribute settings.
-
-In this example we have a component reference of the form:
-* MODULE-NAME::COMPONENT-NAME[INSTANCE-NAME]
-If a Component has same module name as component name than it would have form
-* COMPONENT-NAME[INSTANCE-NAME}
-
-The INSTANCE-NAME term is used with Components that can be instantiated multiple times in the same context (i.e., same cloud service context or same Node). In this case the three VPC resources all need instance names or what we sometimes call ‘Titles’, because there can be multiple vpcs, vpc subnets, and security groups in the same region. 
+TODO: flesh out these sub-sections
 
 ### Assembly Attributes
 
-### Assembly Component Links and auto complete
+### Assembly Component Links and Auto Completion
 
 ### Assembly Node Groups
-
-NOTE: from previous text
-
-A typical deployment can have both Nodes and Node Groups, an example being a Spark cluster with a ‘Spark master’ Component running on a Node, and a set of its slaves that in the DTK DSL would be tied to a Node Group that can be scaled up or down
 
