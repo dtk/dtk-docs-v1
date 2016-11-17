@@ -1,15 +1,19 @@
 ---
 title: Dkt Service Instances & Targets
 permalink: targets/index
+previous_page:
+  url: /assemblies/workflows
+next_page:
+  url: /targets/aws
 ---
 
-## Dtk Service Instance
+# Dtk Service Instance
 
-A service instance acts as a deployment context for an application or service. A service instance is created when the Dtk user issues the 'dtk stage' command, which creates a new deployment instance from a user-selected assembly template.  The same assembly template can be used to create multiple instances of the same application or service, for example, in different environments (e.g., production, staging, testing) or to provide a sandbox per developer.  The stage command creates the service instance in 'staged' state meaning that the Dtk provides a context for the user to manage the service instance, but the actual deployment on a cloud Internet service(s) or internal datacenter(s) has not yet been executed. Once the service instance is created, the user then can execute actions that bring about the actual deployment. Before executing actions that cause the actual deployment, the user can make changes to the service instance to, for example, put in deployment-specfic parameters that cannot be automtically determined or to do some manual customization for the specfic instance.  
+Unique to the Dtk is its approach to Service management in a manner modeled after Object Oriented programming.  The Dtk treats all the content in your Modules (ie: Components, Assemblies, Workflows, etc) as definitions and templates that you will be deploying and managing.  Upon staging and deployment of an [Assembly]({{site.siteBaseDir}}/assemblies) the Dtk instantiates a Service Instance to be used for ongoing management and editing and containing "instance copies" of all objects you are deploying.  Lets say you have an application Assembly for a 3 node deployment.  If you stage and deploy that Assembly twice, you will have two running Services, as well as two Service Instance copies to work with.
 
-After the first deployment action, the user could make changes to the service instance, which serves to provide a new desired state. To cause the actual change to take place the user would then execute the 'converge' action, which will try to bring the actual deployment in line with the new service instance state. The user also has at her or her disposal a set of actions defined on the service instance that specfically defined actions for the service or application and do things like query the state of the deployment, perform tests, copy datasets.
+Service Instances are handy in that they automatically provided a protected sandbox for you and are isolated from any change in the related Module content you might be deploying from.  In the background the Dtk makes copied references for the instance of all the leveraged Modules which makes so work can continue on your core IT assets without having to worry about trashing your running Services, squashing commits of team members, or coming up with specific branching strategies..., its all handled behind the scenes for you.  The other great aspect of Service Instances is that any special handling or thinking you might have done for "environments" in other systems goes away with the maintained Service Instance isolation.
 
-#### Open question: should we have simple state diagram here showing links for commands taht do stage, converge, modify service instace, ...
+Once the Service Instance is created you not only have isolated copies of the Modules you are leveraging, you also get a new Service Instance repository which is a version controlled file representation in the state of your running Service(s).  When you want to run [Actions]({{site.siteBaseDir}}/components/actions) or change the desired state of your Service, simply edit the model file(s) in your instance repository directory, or leverage edit commands via the Dtk Client, and run the **converge** Action.  The Dtk will commit your edits to the Catalog and execute any required Action or Workflow and update to the desired state.
 
 ## Targets
 
@@ -19,16 +23,4 @@ A basic functionality provided by the Dtk is to enable applications and services
 Note that these options are for this particular 'aws/network' module and that Dtk users can customize this module or create a new one to handke additional or different alternatives with reagrds to base AWS deployment context. To treat new cloud providers the user would build a new mdoule with assemblies encoding the provider's specfics.  
 
 After a target assembly has been staged and deployed to create a target instance, an assembly template that captures the application part, but is agnostic to cloud provider can be staged to form a service instance. In this case, the 'dtk stage' command takes a command line option that points to the target instance. The Dtk wil then create a service insatnce that gets automatically customizied to the target.  
-
-
-### Layered services and self contained assemblies
-
-#### Open question: shoudl this go in the adbvances section; or have whole thing or pieces kept here
-
-The Dtk provides the flexibility to design assembly templates that are self contained, for example, having components that will provision both the application and the base provider services or to design assembly templates that breaks things into layers. Where a self contained assembly template provides simplicity, which may be warranted for the deployment environment, breaking into layers provide capabilities, such as
-* A target can encode in one place authorization that gets set once when target staged and deployed and then any assembly staged with respect to it would not need to deal with credentials
-* If user wants to use the same application logic for different cloud providers then breaking into layers gives this flexability
-* Providing a 'layered service' model where for example there is a target instance that provides base AWS networking and authorization services; on top of this, the user stages and deplys an assembly template producing a service instance that brings up a cluster service or comntainer scheduler; on top of this cluster or container service the user can use assembly templates that just deal with the applications that should run on the cluster or scheduler.
-* Breaking up a deployment into multiple services instnaces gives the potential to provide administartive domains for different areas of a deployment. Logic at the lower level services can encode along with how the service is configured also access rules and quotas that constrain the use of the shared service.
-
 

@@ -1,6 +1,8 @@
 ---
-title: DTK Glossary
+title: Dtk Glossary
 permalink: glossary/index
+previous_page:
+  url: /modules/publishing-sharing
 ---
 
 # Dtk Glossary

@@ -1,6 +1,10 @@
 ---
 title: Workflows
 order: 1
+previous_page:
+  url: /assemblies
+next_page:
+  url: /modules
 ---
 
 # Assembly Workflows

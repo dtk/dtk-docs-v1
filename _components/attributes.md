@@ -1,6 +1,8 @@
 ---
 title: Attributes
 order: 10
+previous_page:
+  url: /components
 ---
 
 # Component Attributes

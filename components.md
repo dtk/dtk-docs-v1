@@ -1,6 +1,10 @@
 ---
 title: Dtk Components
 permalink: components/index
+previous_page:
+  url: /getting-started/what-is-the-dtk
+next_page:
+  url: /components/attributes
 ---
 
 # Dtk Components

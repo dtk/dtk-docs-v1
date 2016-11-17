@@ -1,9 +1,10 @@
 ---
 title: What is the Dtk?
 order: 1
+permalink: /getting-started/what-is-the-dtk
 ---
 
-# What is the Devops Toolkit (Dtk)
+# What is the Devops Toolkit (Dtk)?
 <br/>
 The DevOps Toolkit (Dtk) is an automated deployment and configuration system for services, applications & infrastructure with a key focus on reuse, integration & collaboration.  The Dtk's state-based declarative way of treating services and infrastructure is versioned and stored under a built in source controlled Service Catalog along side your applications that need to be deployed, configured and tested.
 

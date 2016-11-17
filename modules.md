@@ -1,6 +1,10 @@
 ---
 title: Dkt Modules
 permalink: modules/index
+previous_page:
+  url: /targets/aws
+next_page:
+  url: /modules/versioning
 ---
 
 # Dtk Modules

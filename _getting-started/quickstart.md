@@ -1,6 +1,8 @@
 ---
 title: Quickstart
 order: 20
+next_page:
+  url: /components
 ---
 
 # Dtk Quickstart

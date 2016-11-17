@@ -1,6 +1,10 @@
 ---
 title: Dtk Assemblies
 permalink: assemblies/index
+previous_page:
+  url: /components/providers
+next_page:
+  url: /assemblies/workflows
 ---
 
 # Dtk Assemblies
