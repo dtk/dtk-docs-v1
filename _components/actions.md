@@ -5,7 +5,7 @@ order: 20
 
 # Component Actions
 
-Associated with each Dtk Component is one of more Actions that perform operations such as deployment, configuration, deleting resources, querying state, testing or performing maintenance. The Dtk DSL provides an interface in the Objected Oriented sense for the actual code or scripts, i.e., Puppet, Bash, Puppet). An example of a DSL fragment capturing Actions for a Component ‘hadoop::namenode’ is as follows:
+Associated with each Dtk Component is one or more Actions that perform operations such as deployment, configuration, deleting resources, querying state, testing or performing maintenance. The Dtk DSL provides an interface in the Objected Oriented sense for the actual code or scripts, e.g., Puppet, Bash, Ruby. An example of a DSL fragment capturing Actions for a Component ‘hadoop::namenode’ is as follows:
 
 {% highlight bash linenos %}
 {% raw %}
@@ -33,7 +33,7 @@ Associated with each Dtk Component is one of more Actions that perform operation
 {% endraw %}
 {% endhighlight %}
 
-In this example there are three types of actions. The Action ‘create’ when executed on a node installs the Hadoop Namenode daemon, configures it and starts the service. The action ‘smoketest’ is a test that would be run in a worflow after the create Action is done to make sure that the service is actually up. If its results indicate failure it will stop the workflow from processing. The third Action ‘leave_safemode’ is a maintenance operation applicable to Hadoop Namenodes.
+In this example there are three types of actions. The Action ‘create’ when executed on a node installs the Hadoop Namenode daemon, configures it and starts the service. The action ‘smoketest’ is a test that would be run in a worflow after the create Action is done to make sure that the service is actually up. If its results indicate failure it will stop the workflow from proceeding. The third Action ‘leave_safemode’ is a maintenance operation applicable to Hadoop Namenode.
 
 Under each Action are fields that indicate the code or script that is doing the actual steps and related parameters. In this case the action ‘create’ is being implemented by Puppet and the actions ‘smoketest and ‘leave_safemode’ using Bash. The “Language Provider” types ‘puppet’ and ‘bash’ dont need to be specifically given since they can be inferred from the fields under Action.
 
@@ -43,7 +43,7 @@ The typical pattern for actions is shown by
         puppet_class: hadoop::namenode
 {% endhighlight %} 
 
-In this case the assignment ‘puppet_class: hadoop::namenode’ indicates the top level Puppet Class to call when action ‘create’ is calle. For Puppet, the other alternative is identifying a top level Puppet Definition to call. Behind these top level Puppet Class or definition is a full Puppet module that can be arbitrarily nested. These top level Classes and Definitions will typically call Puppet Classes, Definitions, Resources, and Functions that would be in the nested in the module
+In this case the assignment ‘puppet_class: hadoop::namenode’ indicates the top level Puppet Class to call when the action ‘create’ is called. For Puppet, the other alternative is identifying a top level Puppet Definition to call. Behind these top level Puppet Class or Definition is a full Puppet module that can be arbitrarily nested. These top level Classes and Definitions will typically call Puppet Classes, Definitions, Resources, and Functions nested in the module
 
 The Bash Actions are atypical in that the DSL itself has the code inline to the DSL, ‘i.e., Bash commands to run
 
