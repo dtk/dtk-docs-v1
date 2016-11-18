@@ -1,7 +1,7 @@
 ---
 title: What is the Dtk?
 order: 1
-permalink: /getting-started/what-is-the-dtk
+permalink: /getting-started/what-is-the-dtk/index
 ---
 
 # What is the Devops Toolkit (Dtk)?
@@ -14,7 +14,7 @@ The DevOps Toolkit (Dtk) is an automated deployment and configuration system for
 <div class="container" style="width:100%">
     <div class="row" style="display: flex; align-items: center;">
         <div class="col-md-3" style="text-align: center;">
-            <img src="{{ site.url }}/assets/img/reuse-asset-icon-03.png" style="margin: 20px auto;"/>
+            <img src="{{ site.url }}{{ site.siteBaseDir }}/assets/img/reuse-asset-icon-03.png" style="margin: 20px auto;"/>
         </div>
         <div class="col-md-9" style="">
             A primary design goal of the Dtk is to leverage and unify your existing IT/developer assets and processes.  Many solutions promise great features for automation and deployment only to have you learn custom languages and rewrite your code to fit into their platforms.  The Dtk way is to wrap and integrate with any script/language and be the unifying management hub.  The Dtk fosters and promotes a continual improvement mindset and can re-use ANY asset such as Bash/Ruby/Python/etc scripts, Puppet modules, and containers to name a few.  Leveraging a simple wrapper DSL encoded in yaml, the Dtk's Component Model provides something akin to an object oriented interface that hides the implementation details of the actual code, script, manifests, etc.  Once your existing assets are "Dtk Enabled" it becomes easy to improve your assets and IT processes while promoting sharing and collaboration across your teams via your Dtk Service Catalog or share across the Dtk Network with others outside your org.
@@ -27,7 +27,7 @@ The DevOps Toolkit (Dtk) is an automated deployment and configuration system for
 <div class="container" style="width:100%">
     <div class="row" style="display: flex; align-items: center;">
         <div class="col-md-3" style="text-align: center;">
-            <img src="{{ site.url }}/assets/img/compose-icon-01.png" style="margin: 20px auto;"/>
+            <img src="{{ site.url }}{{ site.siteBaseDir }}/assets/img/compose-icon-01.png" style="margin: 20px auto;"/>
         </div>
         <div class="col-md-9" style="">
 	Building on the Dtk's re-usable Component Model, it allows you to then compose those building blocks into higher level Applications and Services using the Dtk Assembly Model.  Much like how the Dtk's Component model facilitates re-use and sharing at the asset/resource level, Assemblies provide the same for complex Applications and Services.
@@ -43,7 +43,7 @@ The DevOps Toolkit (Dtk) is an automated deployment and configuration system for
 <div class="container" style="width:100%">
     <div class="row" style="display: flex; align-items: center;">
         <div class="col-md-3" style="text-align: center;">
-            <img src="{{ site.url }}/assets/img/flexibility-icon-02.png" style="margin: 20px auto;"/>
+            <img src="{{ site.url }}{{ site.siteBaseDir }}/assets/img/flexibility-icon-02.png" style="margin: 20px auto;"/>
         </div>
         <div class="col-md-9" style="">
 	There are plenty of tools that provide deployment and workflow functionality.  Typically these systems you either start from zero and hand build your Workflows/run-books from scratch, or they box into a pre-set hard coded pipeline and stages.  Embedded into the Dtk is a powerfull Workflow and task execution engine that auto-generates Workflows for you as you change your state/models, while allowing you to hand customize as you wish and providing an infinitely extensible framework to implement any custom Workflow/Action you wish.  Having issues with a highly complex deployment run, go ahead and stich in a custom smoke test that will stop a run on failure so you can debug further, or implement a custom Workflow for your specific canary rolloout strategy.  The Dtk's Workflow and Action functionality can coordinate across all layers in a deployed Service without putting constraints on your implementations.
