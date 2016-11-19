@@ -24,3 +24,12 @@ Note that these options are for this particular 'aws/network' module and that Dt
 
 After a target assembly has been staged and deployed to create a target instance, an assembly template that captures the application part, but is agnostic to cloud provider can be staged to form a service instance. In this case, the 'dtk stage' command takes a command line option that points to the target instance. The Dtk wil then create a service insatnce that gets automatically customizied to the target.  
 
+
+-------
+
+TODO: mention for targets need to provide
+* credentials
+
+and also if spinning up nodes as opposed to just using services:
+* network context to attache nodes to (.e.g. subnet and security group for AWS)
+* images avaialble for spinning up instances
