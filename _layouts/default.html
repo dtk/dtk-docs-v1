@@ -30,9 +30,6 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 <style>
-    #row-main {
-    overflow-x: hidden; /* necessary to hide collapsed sidebar */
-}
 #content {
     -webkit-transition: width 0.3s ease;
     -moz-transition: width 0.3s ease;
@@ -45,16 +42,12 @@
     -o-transition: margin 0.3s ease;
     transition: margin 0.3s ease;
 }
-#sidebar.collapse {
-    display: block;
-}
 
 @media (max-width: 768px) {
 }
 @media (max-width: 998px) {
     #sidebar {
         z-index: 2000;
-        height: 100%;
         width: 100%;
         position: absolute;
         margin-top: -20px;
