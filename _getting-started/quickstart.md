@@ -11,8 +11,8 @@ next_page:
 In order to start using Dtk via the quickstart method, there are following prerequisities:
 
   1. **Running EC2 Instance:** Make sure to have an AWS account handy, and a running EC2 instance that supports docker where you can deploy the Dtk software.  The EC2 instance doesnt have to be a large server, something like an m3.medium will be sufficient. 
-  2. **Docker Installed:** Docker is required for the quickstart as we distribute the various Dtk pieces of software inside docker containers.  For more info on how to install Docker, please check: <a href="https://docs.docker.com/engine/installation" target="_blank">docker-installation</a>
-  3. **AWS VPC Instance:**  We will use a pre-existing VPC for this Quickstart demo.  If you do not have one consult the AWS docs to learn more about creating one: <a href="http://docs.aws.amazon.com/AmazonVPC/latest/GettingStartedGuide/getting-started-create-vpc.html" target="_blank">getting-started-create-vpc</a>.
+  2. **Docker Installed:** Docker is required for the quickstart as we distribute the various Dtk pieces of software inside docker containers.  For more info on how to install Docker, please check: <a href="https://docs.docker.com/engine/installation" target="_blank">docker-installation</a> (Also make sure to configure Docker as a non-root user  <a href="https://docs.docker.com/engine/installation/linux/linux-postinstall/" target="_blank">Add user to usergroup</a>)
+  3. **AWS VPC Instance:**  We will use a pre-existing VPC for this Quickstart demo.  If you do not have one consult the AWS docs to learn more about creating one: <a href="http://docs.aws.amazon.com/AmazonVPC/latest/GettingStartedGuide/getting-started-create-vpc.html" target="_blank">getting-started-create-vpc</a>.(Note: Please make sure that the following ports are enabled in the Security Group of the AWS instance: 2222, 6163, 80)
   4. **AWS IAM Credentials:** The Dtk will use IAM credentials to carry out actions such as EC2 machine deployment.  Make sure the IAM user you use has access to the VPC from step 3 above.
 
 
@@ -108,6 +108,7 @@ GLOBAL OPTIONS
     --version - Display the program version
 
 COMMANDS
+    account - Subcommands for interacting with current Account
     help    - Shows a list of commands or help for one command
     module  - Subcommands for interacting with DTK modules
     service - Subcommands for creating and interacting with DTK service instances
@@ -130,13 +131,13 @@ The Dtk Client will use local storage to manage working copies of Dtk Modules fo
 Lets install the Quickstart Module to create your first Target:
 
 {% highlight bash linenos %}
-~/modules/target$ dtk module install -v 1.0.0 aws/network
+~/modules/target$ dtk module install aws/network
 [INFO] Auto-importing dependencies
 Importing module 'aws:ec2' ... [INFO] Done.
 Importing module 'aws:identity_aws' ... [INFO] Done.
 Importing module 'aws:image_aws' ... [INFO] Done.
 Importing module 'aws:network_aws' ... [INFO] Done.
-[INFO] Successfully imported 'aws:network' version 1.0.0
+[INFO] Successfully imported 'aws:network' version 1.0.3
 
 ~/modules/target$ dtk module list-assemblies
 +------------+---------------+-------+-------------+
@@ -150,7 +151,7 @@ Now that we have target related module installed, it is time to create new targe
 
 First, we will stage new target
 {% highlight bash linenos %}
-~/modules/target$ dtk service stage --target target
+~/modules/target$ dtk module stage --target target
 [INFO] Service instance 'network-target' has been created. In order to work with service instance, please navigate to: /home/docker-client/dtk/service/network-target
 {% endhighlight %}
 
@@ -189,7 +190,7 @@ In order to do that, we need to install dtk-example/wordpress module:
 {% highlight bash linenos %}
 ~$ mkdir modules/wordpress
 ~$ cd modules/wordpress
-~/modules/wordpress$ dtk module install -v 1.0.0 dtk-examples/wordpress
+~/modules/wordpress$ dtk module install dtk-examples/wordpress
 [INFO] Auto-importing dependencies
 Using module 'aws:ec2'
 Importing module 'puppetlabs:mysql' ... [INFO] Done.
@@ -201,82 +202,73 @@ Importing module 'puppetlabs:apt' ... [INFO] Done.
 Importing module 'puppet:nginx' ... [INFO] Done.
 Using module 'puppetlabs:concat' version: master
 [INFO] Done.
-[INFO] Successfully imported 'dtk-examples:wordpress' version 1.0.0
+[INFO] Successfully imported 'dtk-examples:wordpress' version 1.4.0
 {% endhighlight %}
 
 Now that we have module installed, next thing is to stage assembly template from that module. We can do that using following command:
 {% highlight bash linenos %}
-~/modules/wordpress$ dtk service stage
+~/modules/wordpress$ dtk module stage wordpress_single_node 
 [INFO] Service instance 'wordpress-wordpress_single_node' has been created. In order to work with service instance, please navigate to: /home/docker-client/dtk/service/wordpress-wordpress_single_node
 {% endhighlight %}
 
 Next, we need to position to service instance directory, set required attributes and converge service instance:
 {% highlight bash linenos %}
 ~/modules/wordpress$ cd ~/dtk/service/wordpress-wordpress_single_node
-~/dtk/service/wordpress-wordpress_single_node$ dtk service set-required-attributes
-
-Please fill in missing data.
-Please enter wordpress/image (Logical term describing the image) [STRING]:
-: trusty_hvm
---------------------------------- DATA ---------------------------------
-wordpress/image (Logical term describing the image) : trusty_hvm
-------------------------------------------------------------------------
-Is provided information ok? (yes|no) yes
 ~/dtk/service/wordpress-wordpress_single_node$ dtk service converge
 ---
 task_id: 2147493187
 ~/dtk/service/wordpress-wordpress_single_node$ dtk service task-status
-+---------------------------------+-----------+-----------+----------+-------------------+-------------------+
-| TASK TYPE                       | STATUS    | NODE      | DURATION | STARTED AT        | ENDED AT          |
-+---------------------------------+-----------+-----------+----------+-------------------+-------------------+
-| assembly_converge               | executing |           |          | 10:59:48 11/10/16 |                   |
-|   1 create_node                 | succeeded | wordpress | 89.3s    | 10:59:48 11/10/16 | 11:01:18 11/10/16 |
-|   2 mysql install               | executing |           |          | 11:01:18 11/10/16 |                   |
-|     2.1 configure_node          | executing | wordpress |          | 11:01:18 11/10/16 |                   |
-|   3 nginx and php install       |           |           |          |                   |                   |
-|     3.1 configure_node          |           | wordpress |          |                   |                   |
-|   4 wordpress install and setup |           |           |          |                   |                   |
-|     4.1 configure_node          |           | wordpress |          |                   |                   |
-+---------------------------------+-----------+-----------+----------+-------------------+-------------------+
++------------------------+-----------+-----------+----------+-------------------+----------+
+| TASK TYPE              | STATUS    | NODE      | DURATION | STARTED AT        | ENDED AT |
++------------------------+-----------+-----------+----------+-------------------+----------+
+| assembly_converge      | executing |           |          | 14:54:37 28/02/17 |          |
+|   1 create_node        | executing | wordpress |          | 14:54:37 28/02/17 |          |
+|   2 wordpress setup    |           |           |          |                   |          |
+|     2.1 configure_node |           | wordpress |          |                   |          |
+|   3 database setup     |           |           |          |                   |          |
+|     3.1 configure_node |           | wordpress |          |                   |          |
+|   4 web server setup   |           |           |          |                   |          |
+|     4.1 configure_node |           | wordpress |          |                   |          |
++------------------------+-----------+-----------+----------+-------------------+----------+
 8 rows in set
 ~/dtk/service/wordpress-wordpress_single_node$ dtk service task-status
-+---------------------------------+-----------+-----------+----------+-------------------+-------------------+
-| TASK TYPE                       | STATUS    | NODE      | DURATION | STARTED AT        | ENDED AT          |
-+---------------------------------+-----------+-----------+----------+-------------------+-------------------+
-| assembly_converge               | executing |           |          | 10:59:48 11/10/16 |                   |
-|   1 create_node                 | succeeded | wordpress | 89.3s    | 10:59:48 11/10/16 | 11:01:18 11/10/16 |
-|   2 mysql install               | succeeded |           | 71.7s    | 11:01:18 11/10/16 | 11:02:29 11/10/16 |
-|     2.1 configure_node          | succeeded | wordpress | 71.7s    | 11:01:18 11/10/16 | 11:02:29 11/10/16 |
-|   3 nginx and php install       | executing |           |          | 11:02:30 11/10/16 |                   |
-|     3.1 configure_node          | executing | wordpress |          | 11:02:30 11/10/16 |                   |
-|   4 wordpress install and setup |           |           |          |                   |                   |
-|     4.1 configure_node          |           | wordpress |          |                   |                   |
-+---------------------------------+-----------+-----------+----------+-------------------+-------------------+
++------------------------+-----------+-----------+----------+-------------------+-------------------+
+| TASK TYPE              | STATUS    | NODE      | DURATION | STARTED AT        | ENDED AT          |
++------------------------+-----------+-----------+----------+-------------------+-------------------+
+| assembly_converge      | executing |           |          | 14:54:37 28/02/17 |                   |
+|   1 create_node        | succeeded | wordpress | 79.4s    | 14:54:37 28/02/17 | 14:55:56 28/02/17 |
+|   2 wordpress setup    | executing |           |          | 14:55:56 28/02/17 |                   |
+|     2.1 configure_node | executing | wordpress |          | 14:55:56 28/02/17 |                   |
+|   3 database setup     |           |           |          |                   |                   |
+|     3.1 configure_node |           | wordpress |          |                   |                   |
+|   4 web server setup   |           |           |          |                   |                   |
+|     4.1 configure_node |           | wordpress |          |                   |                   |
++------------------------+-----------+-----------+----------+-------------------+-------------------+
 8 rows in set
 ~/dtk/service/wordpress-wordpress_single_node$ dtk service task-status
-+---------------------------------+-----------+-----------+----------+-------------------+-------------------+
-| TASK TYPE                       | STATUS    | NODE      | DURATION | STARTED AT        | ENDED AT          |
-+---------------------------------+-----------+-----------+----------+-------------------+-------------------+
-| assembly_converge               | succeeded |           | 203.3s   | 10:59:48 11/10/16 | 11:03:12 11/10/16 |
-|   1 create_node                 | succeeded | wordpress | 89.3s    | 10:59:48 11/10/16 | 11:01:18 11/10/16 |
-|   2 mysql install               | succeeded |           | 71.7s    | 11:01:18 11/10/16 | 11:02:29 11/10/16 |
-|     2.1 configure_node          | succeeded | wordpress | 71.7s    | 11:01:18 11/10/16 | 11:02:29 11/10/16 |
-|   3 nginx and php install       | succeeded |           | 29.3s    | 11:02:30 11/10/16 | 11:02:59 11/10/16 |
-|     3.1 configure_node          | succeeded | wordpress | 29.3s    | 11:02:30 11/10/16 | 11:02:59 11/10/16 |
-|   4 wordpress install and setup | succeeded |           | 12.5s    | 11:02:59 11/10/16 | 11:03:12 11/10/16 |
-|     4.1 configure_node          | succeeded | wordpress | 12.5s    | 11:02:59 11/10/16 | 11:03:12 11/10/16 |
-+---------------------------------+-----------+-----------+----------+-------------------+-------------------+
++------------------------+-----------+-----------+----------+-------------------+-------------------+
+| TASK TYPE              | STATUS    | NODE      | DURATION | STARTED AT        | ENDED AT          |
++------------------------+-----------+-----------+----------+-------------------+-------------------+
+| assembly_converge      | succeeded |           | 244.5s   | 14:54:37 28/02/17 | 14:58:41 28/02/17 |
+|   1 create_node        | succeeded | wordpress | 79.4s    | 14:54:37 28/02/17 | 14:55:56 28/02/17 |
+|   2 wordpress setup    | succeeded |           | 97.2s    | 14:55:56 28/02/17 | 14:57:34 28/02/17 |
+|     2.1 configure_node | succeeded | wordpress | 97.2s    | 14:55:56 28/02/17 | 14:57:34 28/02/17 |
+|   3 database setup     | succeeded |           | 49.4s    | 14:57:34 28/02/17 | 14:58:23 28/02/17 |
+|     3.1 configure_node | succeeded | wordpress | 49.4s    | 14:57:34 28/02/17 | 14:58:23 28/02/17 |
+|   4 web server setup   | succeeded |           | 17.9s    | 14:58:23 28/02/17 | 14:58:41 28/02/17 |
+|     4.1 configure_node | succeeded | wordpress | 17.9s    | 14:58:23 28/02/17 | 14:58:41 28/02/17 |
++------------------------+-----------+-----------+----------+-------------------+-------------------+
 8 rows in set
 {% endhighlight %}
 
 To check what has been done, you can pick up ec2 public dns address of converged service instance and paste in browser:
 {% highlight bash linenos %}
 ~/dtk/service/wordpress-wordpress_single_node$ dtk service list-nodes
-+------------+-----------+-------------+----------+--------+-----------+------------------------------------------+
-| ID         | NAME      | INSTANCE ID | SIZE     | OS     | OP STATUS | DNS NAME                                 |
-+------------+-----------+-------------+----------+--------+-----------+------------------------------------------+
-| 2147493071 | wordpress | i-bf56f6a9  | t2.small | ubuntu | running   | ec2-52-90-163-93.compute-1.amazonaws.com |
-+------------+-----------+-------------+----------+--------+-----------+------------------------------------------+
++------------+-----------+---------------------+----------+--------+-----------+-------------------------------------------+
+| ID         | NAME      | INSTANCE ID         | SIZE     | OS     | OP STATUS | DNS NAME                                  |
++------------+-----------+---------------------+----------+--------+-----------+-------------------------------------------+
+| 2147487632 | wordpress | i-03fb46423d565fb4f | t2.small | ubuntu | running   | ec2-54-172-18-241.compute-1.amazonaws.com |
++------------+-----------+---------------------+----------+--------+-----------+-------------------------------------------+
 1 row in set
 {% endhighlight %}
 
