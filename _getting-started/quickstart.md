@@ -13,7 +13,7 @@ In order to start using Dtk via the quickstart method, there are following prere
   1. **Running EC2 Instance:** Make sure to have an AWS account handy, and a running EC2 instance that supports docker where you can deploy the Dtk software.  The EC2 instance doesnt have to be a large server, something like an m3.medium will be sufficient. 
   2. **Docker Installed:** Docker is required for the quickstart as we distribute the various Dtk pieces of software inside docker containers.  For more info on how to install Docker, please check: <a href="https://docs.docker.com/engine/installation" target="_blank">docker-installation</a> (Also make sure to configure Docker as a non-root user  <a href="https://docs.docker.com/engine/installation/linux/linux-postinstall/" target="_blank">Add user to usergroup</a>)
   3. **AWS VPC Instance:**  We will use a pre-existing VPC for this Quickstart demo.  If you do not have one consult the AWS docs to learn more about creating one: <a href="http://docs.aws.amazon.com/AmazonVPC/latest/GettingStartedGuide/getting-started-create-vpc.html" target="_blank">getting-started-create-vpc</a>.(Note: Please make sure that the following ports are enabled in the Security Group of the AWS instance: 2222, 6163, 80)
-  4. **AWS IAM Credentials:** The Dtk will use IAM credentials to carry out actions such as EC2 machine deployment.  Make sure the IAM user you use has access to the VPC from step 3 above. It is expected that tennant has IAM role assigned (Create IAM role with name: **ec2-dtk-access** and give following privileges: AmazonEC2FullAccess, AmazonVPCFullAccess) 
+  4. **AWS IAM Credentials:** The Dtk will use IAM credentials to carry out actions such as EC2 machine deployment.  Make sure the IAM user you use has access to the VPC from step 3 above. It is expected that tenant has IAM role assigned (Create IAM role with name: **ec2-dtk-access** and give following privileges: AmazonEC2FullAccess, AmazonVPCFullAccess) 
 
 
 ## Installation
@@ -47,7 +47,7 @@ In this example, that is:
 \curl -sSL https://getserver.dtk.io | bash -s /home/ubuntu/dtk-server
 {% endhighlight %}
 
-You should have have your server up and running.  Next we will install the Dtk Client that will be the primary way you interact with your new Dtk Server.
+You should have your server up and running.  Next we will install the Dtk Client that will be the primary way you interact with your new Dtk Server.
 
 ### Installing the Dtk Client
 
@@ -93,7 +93,7 @@ SYNOPSIS
     dtk [global options] command [command options] [arguments...]
 
 VERSION
-    0.10.7
+    0.11.0
 
 GLOBAL OPTIONS
     --help    - Show this message
@@ -211,47 +211,50 @@ Next, we need to position to service instance directory, set required attributes
 ---
 task_id: 2147493187
 ~/dtk/service/wordpress-wordpress_single_node$ dtk service task-status
-+------------------------+-----------+-----------+----------+-------------------+----------+
-| TASK TYPE              | STATUS    | NODE      | DURATION | STARTED AT        | ENDED AT |
-+------------------------+-----------+-----------+----------+-------------------+----------+
-| assembly_converge      | executing |           |          | 14:54:37 28/02/17 |          |
-|   1 create_node        | executing | wordpress |          | 14:54:37 28/02/17 |          |
-|   2 wordpress setup    |           |           |          |                   |          |
-|     2.1 configure_node |           | wordpress |          |                   |          |
-|   3 database setup     |           |           |          |                   |          |
-|     3.1 configure_node |           | wordpress |          |                   |          |
-|   4 web server setup   |           |           |          |                   |          |
-|     4.1 configure_node |           | wordpress |          |                   |          |
-+------------------------+-----------+-----------+----------+-------------------+----------+
-8 rows in set
++------------------------------------+-----------+---------------+----------+-------------------+----------+
+| TASK TYPE                          | STATUS    | NODE          | DURATION | STARTED AT        | ENDED AT |
++------------------------------------+-----------+---------------+----------+-------------------+----------+
+| assembly_converge                  | executing |               |          | 14:22:56 24/05/17 |          |
+|   1 component ec2::node[wordpress] | executing |               |          | 14:22:56 24/05/17 |          |
+|     1.1 configure_node             | executing | assembly_wide |          | 14:22:56 24/05/17 |          |
+|   2 wordpress setup                |           |               |          |                   |          |
+|     2.1 configure_node             |           | wordpress     |          |                   |          |
+|   3 database setup                 |           |               |          |                   |          |
+|     3.1 configure_node             |           | wordpress     |          |                   |          |
+|   4 web server setup               |           |               |          |                   |          |
+|     4.1 configure_node             |           | wordpress     |          |                   |          |
++------------------------------------+-----------+---------------+----------+-------------------+----------+
+9 rows in set
 ~/dtk/service/wordpress-wordpress_single_node$ dtk service task-status
-+------------------------+-----------+-----------+----------+-------------------+-------------------+
-| TASK TYPE              | STATUS    | NODE      | DURATION | STARTED AT        | ENDED AT          |
-+------------------------+-----------+-----------+----------+-------------------+-------------------+
-| assembly_converge      | executing |           |          | 14:54:37 28/02/17 |                   |
-|   1 create_node        | succeeded | wordpress | 79.4s    | 14:54:37 28/02/17 | 14:55:56 28/02/17 |
-|   2 wordpress setup    | executing |           |          | 14:55:56 28/02/17 |                   |
-|     2.1 configure_node | executing | wordpress |          | 14:55:56 28/02/17 |                   |
-|   3 database setup     |           |           |          |                   |                   |
-|     3.1 configure_node |           | wordpress |          |                   |                   |
-|   4 web server setup   |           |           |          |                   |                   |
-|     4.1 configure_node |           | wordpress |          |                   |                   |
-+------------------------+-----------+-----------+----------+-------------------+-------------------+
-8 rows in set
++------------------------------------+-----------+---------------+----------+-------------------+-------------------+
+| TASK TYPE                          | STATUS    | NODE          | DURATION | STARTED AT        | ENDED AT          |
++------------------------------------+-----------+---------------+----------+-------------------+-------------------+
+| assembly_converge                  | executing |               |          | 14:22:56 24/05/17 |                   |
+|   1 component ec2::node[wordpress] | succeeded |               | 41.0s    | 14:22:56 24/05/17 | 14:23:37 24/05/17 |
+|     1.1 configure_node             | succeeded | assembly_wide | 41.0s    | 14:22:56 24/05/17 | 14:23:37 24/05/17 |
+|   2 wordpress setup                | executing |               |          | 14:23:38 24/05/17 |                   |
+|     2.1 configure_node             | executing | wordpress     |          | 14:23:38 24/05/17 |                   |
+|   3 database setup                 |           |               |          |                   |                   |
+|     3.1 configure_node             |           | wordpress     |          |                   |                   |
+|   4 web server setup               |           |               |          |                   |                   |
+|     4.1 configure_node             |           | wordpress     |          |                   |                   |
++------------------------------------+-----------+---------------+----------+-------------------+-------------------+
+9 rows in set
 ~/dtk/service/wordpress-wordpress_single_node$ dtk service task-status
-+------------------------+-----------+-----------+----------+-------------------+-------------------+
-| TASK TYPE              | STATUS    | NODE      | DURATION | STARTED AT        | ENDED AT          |
-+------------------------+-----------+-----------+----------+-------------------+-------------------+
-| assembly_converge      | succeeded |           | 244.5s   | 14:54:37 28/02/17 | 14:58:41 28/02/17 |
-|   1 create_node        | succeeded | wordpress | 79.4s    | 14:54:37 28/02/17 | 14:55:56 28/02/17 |
-|   2 wordpress setup    | succeeded |           | 97.2s    | 14:55:56 28/02/17 | 14:57:34 28/02/17 |
-|     2.1 configure_node | succeeded | wordpress | 97.2s    | 14:55:56 28/02/17 | 14:57:34 28/02/17 |
-|   3 database setup     | succeeded |           | 49.4s    | 14:57:34 28/02/17 | 14:58:23 28/02/17 |
-|     3.1 configure_node | succeeded | wordpress | 49.4s    | 14:57:34 28/02/17 | 14:58:23 28/02/17 |
-|   4 web server setup   | succeeded |           | 17.9s    | 14:58:23 28/02/17 | 14:58:41 28/02/17 |
-|     4.1 configure_node | succeeded | wordpress | 17.9s    | 14:58:23 28/02/17 | 14:58:41 28/02/17 |
-+------------------------+-----------+-----------+----------+-------------------+-------------------+
-8 rows in set
++------------------------------------+-----------+---------------+----------+-------------------+-------------------+
+| TASK TYPE                          | STATUS    | NODE          | DURATION | STARTED AT        | ENDED AT          |
++------------------------------------+-----------+---------------+----------+-------------------+-------------------+
+| assembly_converge                  | succeeded |               | 284.7s   | 14:22:56 24/05/17 | 14:27:41 24/05/17 |
+|   1 component ec2::node[wordpress] | succeeded |               | 41.0s    | 14:22:56 24/05/17 | 14:23:37 24/05/17 |
+|     1.1 configure_node             | succeeded | assembly_wide | 41.0s    | 14:22:56 24/05/17 | 14:23:37 24/05/17 |
+|   2 wordpress setup                | succeeded |               | 191.4s   | 14:23:38 24/05/17 | 14:26:49 24/05/17 |
+|     2.1 configure_node             | succeeded | wordpress     | 191.4s   | 14:23:38 24/05/17 | 14:26:49 24/05/17 |
+|   3 database setup                 | succeeded |               | 30.8s    | 14:26:49 24/05/17 | 14:27:20 24/05/17 |
+|     3.1 configure_node             | succeeded | wordpress     | 30.8s    | 14:26:49 24/05/17 | 14:27:20 24/05/17 |
+|   4 web server setup               | succeeded |               | 20.4s    | 14:27:20 24/05/17 | 14:27:41 24/05/17 |
+|     4.1 configure_node             | succeeded | wordpress     | 20.4s    | 14:27:20 24/05/17 | 14:27:41 24/05/17 |
++------------------------------------+-----------+---------------+----------+-------------------+-------------------+
+9 rows in set
 {% endhighlight %}
 
 To check what has been done, you can pick up ec2 public dns address of converged service instance and paste in browser:
