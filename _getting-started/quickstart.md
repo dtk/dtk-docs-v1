@@ -21,14 +21,7 @@ In order to start using Dtk via the quickstart method, there are following prere
 
 ### Installing the Dtk Server
 
-Having all prerequisites fulfilled, we will first install the various containers we distribute for the Quickstart.  Login to your AWS instance and pull latest docker images for dtk-server and dtk-arbiter from Docker Hub:
-
-{% highlight bash linenos %}
-~$ docker pull getdtk/dtk-server
-~$ docker pull getdtk/dtk-arbiter
-{% endhighlight %}
-
-Create a directory which will serve as mounted host volume for your containers
+Login to your AWS instance and create a directory which will serve as mounted host volume for your containers
 {% highlight bash linenos %}
 ~$ mkdir dtk-server
 ~$ cd dtk-server
