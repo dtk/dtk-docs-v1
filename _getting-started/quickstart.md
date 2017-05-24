@@ -94,7 +94,7 @@ SYNOPSIS
     dtk [global options] command [command options] [arguments...]
 
 VERSION
-    0.10.0.2
+    0.10.7
 
 GLOBAL OPTIONS
     --help    - Show this message
