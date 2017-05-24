@@ -195,7 +195,7 @@ Importing module 'puppetlabs:apt' ... [INFO] Done.
 Importing module 'puppet:nginx' ... [INFO] Done.
 Using module 'puppetlabs:concat' version: master
 [INFO] Done.
-[INFO] Successfully imported 'dtk-examples:wordpress' version 1.4.0
+[INFO] Successfully imported 'dtk-examples:wordpress' version 1.5.0
 {% endhighlight %}
 
 Now that we have module installed, next thing is to stage assembly template from that module. We can do that using following command:
