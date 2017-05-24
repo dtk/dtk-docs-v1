@@ -13,8 +13,7 @@ In order to start using Dtk via the quickstart method, there are following prere
   1. **Running EC2 Instance:** Make sure to have an AWS account handy, and a running EC2 instance that supports docker where you can deploy the Dtk software.  The EC2 instance doesnt have to be a large server, something like an m3.medium will be sufficient. 
   2. **Docker Installed:** Docker is required for the quickstart as we distribute the various Dtk pieces of software inside docker containers.  For more info on how to install Docker, please check: <a href="https://docs.docker.com/engine/installation" target="_blank">docker-installation</a> (Also make sure to configure Docker as a non-root user  <a href="https://docs.docker.com/engine/installation/linux/linux-postinstall/" target="_blank">Add user to usergroup</a>)
   3. **AWS VPC Instance:**  We will use a pre-existing VPC for this Quickstart demo.  If you do not have one consult the AWS docs to learn more about creating one: <a href="http://docs.aws.amazon.com/AmazonVPC/latest/GettingStartedGuide/getting-started-create-vpc.html" target="_blank">getting-started-create-vpc</a>.(Note: Please make sure that the following ports are enabled in the Security Group of the AWS instance: 2222, 6163, 80)
-  4. **AWS IAM Credentials:** The Dtk will use IAM credentials to carry out actions such as EC2 machine deployment.  Make sure the IAM user you use has access to the VPC from step 3 above.
-
+  4. **AWS IAM Credentials:** The Dtk will use IAM credentials to carry out actions such as EC2 machine deployment.  Make sure the IAM user you use has access to the VPC from step 3 above. It is expected that tennant has IAM role assigned (Create IAM role with name: **ec2-dtk-access** and give following privileges: AmazonEC2FullAccess, AmazonVPCFullAccess) 
 
 
 ## Installation
@@ -110,7 +109,7 @@ COMMANDS
 You now have the Server and Client up and running and are ready to start using your new Dtk setup
 
 ## Initial Target setup
-Now that you have Dtk up and running, first thing you need to do is to create an initial Target to deploy your Services into.  For this Quickstart have your VPC and IAM credentials handy from the Prerequisities section at the top of the page.
+Now that you have Dtk up and running, first thing you need to do is to create an initial Target to deploy your Services into.
 
 The Dtk Client will use local storage to manage working copies of Dtk Modules for you as you do your work.  Most of the time you will want to organize your Modules in some directory structure that makes most sense to you.  For this Quickstart we will use a `modules` directory and put Target related Modules under the `modules/target` sub-directory.
 
@@ -124,46 +123,47 @@ The Dtk Client will use local storage to manage working copies of Dtk Modules fo
 Lets install the Quickstart Module to create your first Target:
 
 {% highlight bash linenos %}
-~/modules/target$ dtk module install aws/network
-[INFO] Auto-importing dependencies
-Importing module 'aws:ec2' ... [INFO] Done.
-Importing module 'aws:identity_aws' ... [INFO] Done.
-Importing module 'aws:image_aws' ... [INFO] Done.
-Importing module 'aws:network_aws' ... [INFO] Done.
-[INFO] Successfully imported 'aws:network' version 1.0.3
+~/modules/target$ dtk module install aws/aws_target
+ye[INFO] Getting dependent module info for 'aws/aws_target(master)' from dtkn catalog ...
+[INFO] Installing dependent modules from dtkn catalog ...
+Installing dependent module 'aws/ec2(master)' ... Done.
+Installing dependent module 'dtk_stdlib/dtk_stdlib(master)' ... Done.
+Installing dependent module 'dtk/host(master)' ... Done.
+Installing dependent module 'aws/aws_stdlib(master)' ... Done.
+Installing dependent module 'dtk-provider/ruby-provider(master)' ... Done.
+Installing dependent module 'aws/identity_aws(1.0.1)' ... Done.
+Installing dependent module 'aws/image_aws(master)' ... Done.
+Installing dependent module 'aws/network_aws(master)' ... Done.
+Installing base module 'aws/aws_target(master)' from dtkn catalog ... Done.
 
 ~/modules/target$ dtk module list-assemblies
-+------------+---------------+-------+-------------+
-| ID         | ASSEMBLY NAME | NODES | DESCRIPTION |
-+------------+---------------+-------+-------------+
-| 2147485655 | target        | 0     |             |
-+------------+---------------+-------+-------------+
++------------+---------------+-------+--------------------------------------+
+| ID         | ASSEMBLY NAME | NODES | DESCRIPTION                          |
++------------+---------------+-------+--------------------------------------+
+| 2147512159 | target_iam    | 0     | Simple AWS VPC target with IAM roles |
+| 2147512162 | target_keys   | 0     | Simple AWS VPC target                |
++------------+---------------+-------+--------------------------------------+
+2 rows in set
 {% endhighlight %}
 
 Now that we have target related module installed, it is time to create new target:
 
-First, we will stage new target
+First, we will stage new target_iam
 {% highlight bash linenos %}
-~/modules/target$ dtk module stage --target target
-[INFO] Service instance 'network-target' has been created. In order to work with service instance, please navigate to: /home/docker-client/dtk/service/network-target
+~/modules/target$ dtk module stage --target target_iam
+[INFO] Service instance 'aws_target-target_iam' has been created. In order to work with service instance, please navigate to: /home/docker-client/dtk/service/aws_target-target_iam
 {% endhighlight %}
 
 After staging target, we need to set required attributes for staged target
 {% highlight bash linenos %}
-~/modules/target$ cd ~/dtk/service/network-target
-~/dtk/service/network-target$ dtk service set-required-attributes
+~/modules/target$ cd ~/dtk/service/aws_target-target_iam
+~/dtk/service/aws_target-target_iam$ dtk service set-required-attributes
 
 Please fill in missing data.
-Please enter identity_aws::credentials/aws_access_key_id [STRING]:
-: <AWS_ACCESS_KEY_ID>
-Please enter identity_aws::credentials/aws_secret_access_key [STRING]:
-: <AWS_SECRET_ACCESS_KEY>
 Please enter network_aws::vpc[vpc1]/default_keypair [STRING]:
 : <DEFAULT_KEYPAIR>
 --------------------------------- DATA ---------------------------------
-identity_aws::credentials/aws_access_key_id : <AWS_ACCESS_KEY_ID>
-identity_aws::credentials/aws_secret_access_key : <AWS_SECRET_ACCESS_KEY>
-network_aws::vpc[vpc1]/default_keypair : <DEFAULT_KEYPAIR>
+network_aws::vpc[vpc1]/default_keypair : testing_use1
 ------------------------------------------------------------------------
 Is provided information ok? (yes|no) yes
 {% endhighlight %}
@@ -171,7 +171,7 @@ Is provided information ok? (yes|no) yes
 There are multiple scenarios when configuring target (this will be discussed in Dtk documentation) but the most straghtforward one is to setup target in same vpc where your Dtk server instance resides. To do that, no additional configuration is needed. Therefore, next step is to converge target
 
 {% highlight bash linenos %}
-~/dtk/service/network-target$ dtk service converge
+~/dtk/service/aws_target-target_iam$ dtk service converge
 {% endhighlight %}
 
 If converge passed successfully, that means that we are ready to provision assembly templates in newly created target that actually points to SAME vpc, subnet and security group where your Dtk Server instance resides.
